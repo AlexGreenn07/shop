@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import avatar from '../../../public/icons-header/graphics/avatar.png';
 import iconArrow from '../../../public/icons-header/icon-arrow.svg';
-import iconCart from '../../../public/icons-header/icon-cart.svg';
+
 function Profile() {
   return (
     <div className="ml-6 flex flex-1 items-center justify-end gap-2.5 p-2">

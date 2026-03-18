@@ -1,9 +1,9 @@
 @import 'tailwindcss';
 
-:root {
-  /* --background: #ffffff;
-  --foreground: #171717; */
-}
+/* :root {
+  --background: #ffffff;
+  --foreground: #171717;
+} */
 
 @theme inline {
   --font-sans: var(--font-rubik);
@@ -13,12 +13,12 @@
   --shadow-button-active: inset 0px 2px 0px 0px rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  /* :root {
+/* @media (prefers-color-scheme: dark) {
+  :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-  } */
-}
+  }
+} */
 
 body {
   background-color: #fbf8ec;
