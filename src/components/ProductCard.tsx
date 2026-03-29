@@ -12,6 +12,7 @@ const ProductCard = ({
   basePrice,
   discountPercent,
   rating,
+  categories,
 }: ProductCardProps) => {
   const calculateFinalPrice = (
     price: number,
@@ -27,11 +28,13 @@ const ProductCard = ({
     return calculateFinalPrice(price, discount);
   };
 
-  const finalPrice = calculateFinalPrice(basePrice, discountPercent);
-  const priceByCard = calculatePriceByCard(
-    finalPrice,
-    cardDiscountPercent
-  );
+  const isNewProduct = categories?.includes('new');
+  const finalPrice = isNewProduct
+    ? basePrice
+    : calculateFinalPrice(basePrice, discountPercent);
+  const priceByCard = isNewProduct
+    ? basePrice
+    : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
   return (
     <div className="flex w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
@@ -52,7 +55,7 @@ const ProductCard = ({
             sizes="24px"
           />
         </button>
-        {discountPercent && (
+        {discountPercent > 0 && (
           <div className="absolute bottom-2.5 left-2.5 rounded bg-[#ff6633] px-2 py-1 text-white">
             -{discountPercent}%
           </div>
@@ -62,11 +65,11 @@ const ProductCard = ({
       <div className="flex flex-col justify-between gap-y-2 p-2">
         <div className="flex flex-row items-end justify-between">
           <div className="flex flex-col gap-x-1">
-            <div className="flex flex-row gap-x-1 text-sm font-bold md:text-lg">
+            <div className="flex flex-row gap-x-1 text-sm font-bold text-[#414141] md:text-lg">
               <span>{formatPrice(priceByCard)}</span>
               <span>₽</span>
             </div>
-            {cardDiscountPercent > 0 && (
+            {discountPercent > 0 && (
               <p className="text-[8px] text-[#bfbfbf] md:text-xs">
                 С картой
               </p>
@@ -78,7 +81,7 @@ const ProductCard = ({
                 <span>{formatPrice(finalPrice)}</span>
                 <span>₽</span>
               </div>
-              <p className="text-[8px] text-[#bfbfbf] md:text-xs">
+              <p className="text-right text-[8px] text-[#bfbfbf] md:text-xs">
                 Обычная
               </p>
             </div>
