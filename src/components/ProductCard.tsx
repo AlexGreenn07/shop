@@ -36,6 +36,8 @@ const ProductCard = ({
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
+  const ratingValue = rating?.rate || 5;
+
   return (
     <div className="flex w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
       <div className="relative h-40 w-40 md:w-56 xl:w-68">
@@ -90,7 +92,7 @@ const ProductCard = ({
         <div className="line-clamp-3 h-13.5 text-xs leading-normal text-[#414141] md:line-clamp-2 md:text-base">
           {description}
         </div>
-        {rating > 0 && <StarRating rating={rating} />}
+        {ratingValue > 0 && <StarRating rating={ratingValue} />}
         <button className="h-10 w-full cursor-pointer items-center justify-center rounded border border-(--color-primary) p-2 text-(--color-primary) transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active)">
           В корзину
         </button>
