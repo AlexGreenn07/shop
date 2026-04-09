@@ -2,7 +2,7 @@ import Actions from '@/components/Actions';
 import Maps from '@/components/Maps';
 import NewProducts from '@/components/NewProducts';
 import Purchases from '@/components/Purchases';
-import Slider from '@/components/Slider/Slider';
+import Slider from '@/components/slider/Slider';
 import SpecialOffers from '@/components/SpecialOffers';
 import Articles from '@/components/Articles';
 

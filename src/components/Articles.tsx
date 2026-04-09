@@ -1,10 +1,25 @@
-import articlesDatabase from '@/data/articlesDatabase.json';
-import iconRight from '../../public/icons-header/icon-arrow-right.svg';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Article } from '@/types/articles';
+import ViewAllButton from './ViewAllButton';
 
-export default function Articles() {
-  const articles = articlesDatabase;
+export default async function Articles() {
+  let articles: Article[] = [];
+  let error = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/articles`
+    );
+    articles = await res.json();
+  } catch (err) {
+    error = 'Ошибка получения статей';
+    console.error('Ошибка в компоненте Article:', err);
+  }
+  if (error) {
+    return <div className="text-red-500">Ошибка: {error}</div>;
+  }
+
   return (
     <section>
       <div className="flex flex-col justify-center xl:max-w-302">
@@ -12,27 +27,12 @@ export default function Articles() {
           <h2 className="text-left text-2xl font-bold text-[#414141] xl:text-4xl">
             Статьи
           </h2>
-          <Link
-            href="#"
-            className="flex cursor-pointer flex-row items-center gap-x-2"
-          >
-            <p className="text-center text-base text-[#606060] duration-300 hover:text-[#bfbfbf]">
-              Все статьи
-            </p>
-            <Image
-              src={iconRight}
-              alt="Все статьи"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </Link>
+          <ViewAllButton btnText="Все статьи" href="articles" />
         </div>
-
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
           {articles.map((article) => (
             <article
-              key={article.id}
+              key={article._id}
               className="group flex h-75 flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-(--shadow-card) transition-all hover:shadow-(--shadow-article) md:h-105"
             >
               <div className="relative h-48 w-full overflow-hidden">

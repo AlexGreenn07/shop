@@ -25,6 +25,7 @@ function Footer() {
               src="/icons-footer/logo-footer.png"
               alt="Логотип"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
             />
           </Link>
@@ -82,16 +83,18 @@ function Footer() {
             href="https://zasovskiy.ru"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row gap-2 hover:scale-110"
+            className="flex flex-row items-center gap-2 transition-transform hover:scale-110"
           >
             <p className="text-xs">Дизайн</p>
-            <Image
-              src="/icons-footer/design.svg"
-              alt="Дизайн сайта — студия Zasovskiy"
-              width={100}
-              height={10}
-              className="transition-all hover:brightness-90"
-            />
+            <div className="relative h-4 w-24">
+              <Image
+                src="/icons-footer/design.svg"
+                alt="Дизайн сайта — студия Zasovskiy"
+                fill
+                className="object-contain object-left transition-all hover:brightness-90"
+                sizes="96px"
+              />
+            </div>
           </a>
         </div>
       </div>

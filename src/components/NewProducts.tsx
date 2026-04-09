@@ -1,12 +1,26 @@
-import Image from 'next/image';
-import iconRight from '../../public/icons-header/icon-arrow-right.svg';
 import ProductCard from './ProductCard';
-import database from '@/data/database.json';
+import { ProductCardProps } from '@/types/product';
+import { shuffleArray } from '@/utils/shuffleArray';
+import ViewAllButton from './ViewAllButton';
 
-const NewProducts = () => {
-  const newProducts = database.products.filter((product) =>
-    product.categories?.includes('new')
-  );
+const NewProducts = async () => {
+  let newProducts: ProductCardProps[] = [];
+  let error = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products?category=new`
+    );
+    newProducts = await res.json();
+
+    newProducts = shuffleArray(newProducts);
+  } catch (err) {
+    error = 'Ошибка получения новых продуктов';
+    console.error('Ошибка в компоненте NewProducts:', err);
+  }
+  if (error) {
+    return <div className="text-red-500">Ошибка: {error}</div>;
+  }
   return (
     <section>
       <div className="flex flex-col justify-center xl:max-w-302">
@@ -14,23 +28,12 @@ const NewProducts = () => {
           <h2 className="text-left text-2xl font-bold text-[#414141] xl:text-4xl">
             Новинки
           </h2>
-          <button className="flex cursor-pointer flex-row items-center gap-x-2">
-            <p className="text-center text-base text-[#606060] hover:text-[#bfbfbf]">
-              Все новинки
-            </p>
-            <Image
-              src={iconRight}
-              alt="К новинкам"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </button>
+          <ViewAllButton btnText="Все новинки" href="new" />
         </div>
         <ul className="grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-4 xl:gap-8">
           {newProducts.slice(0, 4).map((item, index) => (
             <li
-              key={item.id}
+              key={item._id}
               className={`${index >= 4 ? 'hidden' : ''} ${index >= 3 ? 'md:hidden xl:block' : ''} ${index >= 4 ? 'xl:hidden' : ''}`}
             >
               <ProductCard {...item} />
