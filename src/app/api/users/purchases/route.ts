@@ -15,15 +15,12 @@ export async function GET() {
     );
     const products = await db
       .collection('products')
-      .find({ id: { $in: productIds } })
+      .find(
+        { id: { $in: productIds } },
+        { projection: { discountPercent: 0 } }
+      )
       .toArray();
-    return NextResponse.json(
-      products.map((product) => {
-        const { discountPercent, ...rest } = product;
-        void discountPercent;
-        return rest;
-      })
-    );
+    return NextResponse.json(products);
   } catch (error) {
     console.error('Ошибка сервера:', error);
     return NextResponse.json(

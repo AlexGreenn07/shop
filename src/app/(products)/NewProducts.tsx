@@ -1,8 +1,9 @@
+import { shuffleArray } from '@/utils/shuffleArray';
 import fetchProductsByCategory from './fetchProducts';
 import ProductsSection from './ProductsSection';
 
 const NewProducts = async () => {
-  const products = await fetchProductsByCategory('new').catch(
+  let products = await fetchProductsByCategory('new').catch(
     () => null
   );
   if (!products || products.length === 0) {
@@ -12,11 +13,12 @@ const NewProducts = async () => {
       </div>
     );
   }
+  products = shuffleArray(products);
 
   return (
     <ProductsSection
       title="Новинки"
-      viewAllButton={{ text: 'Все новинки', href: 'new' }}
+      viewAllButton={{ text: 'Все новинки', href: '/new' }}
       products={products}
       compact
     />

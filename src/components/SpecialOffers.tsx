@@ -7,11 +7,11 @@ const SpecialOffers = () => {
   return (
     <section>
       <div className="mb-4 flex flex-col justify-between text-[#414141] md:mb-8 xl:mb-10">
-        <div className="mx-auto flex flex-col gap-4 md:w-184.25 xl:w-full">
+        <div className="mx-auto flex flex-col gap-4 md:w-full xl:w-full">
           <h2 className="mb-4 text-left text-2xl font-bold md:mb-8 xl:text-4xl">
             Специальные предложения
           </h2>
-          <div className="flex flex-col items-center gap-4 md:flex-row xl:w-auto">
+          <div className="flex flex-col justify-around gap-4 md:flex-row xl:w-auto">
             {/* Баннер с картой - всегда видим */}
             <button className="relative flex h-42.5 w-full max-w-84 cursor-pointer flex-row overflow-hidden rounded bg-[#FCD5BA] pt-5 pl-5 text-left duration-300 hover:shadow-(--shadow-card-shop) md:max-w-88 xl:h-50 xl:max-w-146">
               <div className="flex w-43.5 flex-col gap-1.5 xl:w-64.5">

@@ -22,15 +22,11 @@ const ArticlesSection = ({
             href={viewAllButton.href}
           />
         </div>
-        <ul className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
           {articles.map((article, index) => (
             <li
               key={article._id}
-              className={
-                compact
-                  ? `p-2 ${index >= 4 ? 'hidden' : ''} ${index >= 3 ? 'md:hidden xl:block' : ''} ${index >= 4 ? 'xl:hidden' : ''}`
-                  : 'p-2'
-              }
+              className={`p-2 ${index >= 3 ? 'hidden' : ''}`}
             >
               <ArticleCard {...article} />
             </li>

@@ -2,7 +2,8 @@ import fetchArticles from './fetchArticles';
 import ArticlesSection from './ArticlesSection';
 
 export default async function Articles() {
-  const articles = await fetchArticles().catch(() => null);
+  const articles = await fetchArticles();
+
   if (!articles || articles.length === 0) {
     return (
       <div className="text-red-500">
@@ -14,7 +15,7 @@ export default async function Articles() {
   return (
     <ArticlesSection
       title="Статьи"
-      viewAllButton={{ text: 'Все статьи', href: '/articles' }}
+      viewAllButton={{ text: 'Все статьи', href: 'articles' }}
       articles={articles}
       compact
     />

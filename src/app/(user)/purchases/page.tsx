@@ -1,20 +1,20 @@
+import GenericListPage from '@/app/(products)/GenericListPage';
 import fetchPurchases from '../fetchPurchases';
-import ProductsSection from '@/app/(products)/ProductsSection';
 
-const AllPurchases = async () => {
-  const purchases = await fetchPurchases().catch(() => null);
-  if (!purchases || purchases.length === 0) {
-    return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить покупки
-      </div>
-    );
-  }
+const AllPurchases = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ProductsSection
-      title="Все покупки"
-      viewAllButton={{ text: 'На главную', href: '/' }}
-      products={purchases}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchPurchases(),
+        pageTitle: 'Все покупки',
+        basePath: '/purchases',
+        errorMessage: 'Ошибка: не удалось загрузить покупки',
+      }}
     />
   );
 };

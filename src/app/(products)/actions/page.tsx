@@ -1,28 +1,25 @@
 import fetchProductsByCategory from '../fetchProducts';
-import ProductsSection from '../ProductsSection';
+import GenericListPage from '../GenericListPage';
 
 export const metadata = {
   title: 'Акции магазина "Северяночка"',
   description: 'Акционные товары магазина "Северяночка"',
 };
 
-const AllActions = async () => {
-  const products = await fetchProductsByCategory('actions').catch(
-    () => null
-  );
-  if (!products || products.length === 0) {
-    return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить акции
-      </div>
-    );
-  }
-
+const AllActions = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ProductsSection
-      title="Все акции"
-      viewAllButton={{ text: 'На главную', href: '/' }}
-      products={products}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchProductsByCategory('actions'),
+        pageTitle: 'Все акции',
+        basePath: '/actions',
+        errorMessage: 'Ошибка: не удалось загрузить акции',
+      }}
     />
   );
 };

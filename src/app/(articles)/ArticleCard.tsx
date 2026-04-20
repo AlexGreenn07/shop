@@ -1,8 +1,13 @@
-import { Article } from '@/types/articles';
+import { ArticleCardProps } from '@/types/articles';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const ArticleCard = ({ img, title, createdAt, text }: Article) => {
+const ArticleCard = ({
+  img,
+  title,
+  createdAt,
+  text,
+}: ArticleCardProps) => {
   return (
     <article className="group flex flex-col rounded-lg border border-gray-100 bg-white shadow-(--shadow-card) transition-all hover:shadow-(--shadow-article)">
       <div className="relative h-48 w-full overflow-hidden">

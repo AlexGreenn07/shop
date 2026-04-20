@@ -1,26 +1,26 @@
 import fetchArticles from '../fetchArticles';
-import ArticlesSection from '../ArticlesSection';
+import GenericListPage from '@/app/(products)/GenericListPage';
 
 export const metadata = {
   title: 'Статьи на сайте магазина "Северяночка"',
   description: 'Читайте статьи на сайте магазина "Северяночка"',
 };
 
-const AllArticles = async () => {
-  const articles = await fetchArticles().catch(() => null);
-  if (!articles || articles.length === 0) {
-    return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить статьи
-      </div>
-    );
-  }
-
+const AllArticles = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ArticlesSection
-      title="Все статьи"
-      viewAllButton={{ text: 'На главную', href: '/' }}
-      articles={articles}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchArticles(),
+        pageTitle: 'Все статьи',
+        basePath: '/articles',
+        errorMessage: 'Ошибка: не удалось загрузить статьи',
+        contentType: 'articles',
+      }}
     />
   );
 };
