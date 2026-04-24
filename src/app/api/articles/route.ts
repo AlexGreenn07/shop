@@ -10,7 +10,7 @@ export async function GET() {
   } catch (error) {
     console.error('Ошибка сервера баз данных:', error);
     return NextResponse.json(
-      { message: 'Ошибка сервера при загрузке статей:' },
+      { message: 'Ошибка сервера при загрузке статей' },
       { status: 500 }
     );
   }

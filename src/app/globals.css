@@ -33,6 +33,14 @@ body {
   justify-content: space-between; */
 }
 
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+
 /* [class*='ymaps-2-1-'][class*='-map-copyrights-promo'],
 [class*='ymaps-2-1-'][class*='-copyright__content'],
 [class*='ymaps-2-1-'][class*='-copyright__logo'] {

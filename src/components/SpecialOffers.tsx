@@ -39,7 +39,7 @@ const SpecialOffers = () => {
                   alt="Акционные товары"
                   width={353}
                   height={170}
-                  className="object-content h-full w-full rounded"
+                  className="object-content h-auto w-full rounded"
                   priority
                 />
               </div>
