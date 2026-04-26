@@ -45,6 +45,7 @@ const ProductCard = ({
           src={img}
           alt="Акция"
           fill
+          priority={false}
           className="object-contain pt-2"
           sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 262px"
         />

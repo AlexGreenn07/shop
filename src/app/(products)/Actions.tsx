@@ -1,26 +1,16 @@
-import { shuffleArray } from '@/utils/shuffleArray';
 import fetchProductsByCategory from './fetchProducts';
 import ProductsSection from './ProductsSection';
+import { CONFIG } from '../../../config/config';
 
 const Actions = async () => {
-  let products = await fetchProductsByCategory('actions').catch(
-    () => null
-  );
-  if (!products || products.length === 0) {
-    return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить акции
-      </div>
-    );
-  }
-  products = shuffleArray(products);
-
+  const { items } = await fetchProductsByCategory('actions', {
+    randomLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
+  });
   return (
     <ProductsSection
       title="Акции"
       viewAllButton={{ text: 'Все акции', href: '/actions' }}
-      products={products}
-      compact
+      products={items}
     />
   );
 };

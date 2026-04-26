@@ -86,7 +86,7 @@ const Pagination = ({
           return (
             <Link
               key={page}
-              href={createPageUrl(basePath, params, +page)}
+              href={createPageUrl(basePath, params, page as number)}
               className={`${pageButtonClass} ${
                 currentPage === page
                   ? 'border-transparent bg-[#ff6633] text-white'

@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import CatalogPage from './CatalogPage';
+import { Loader } from '@/components/Loader';
 
 export const metadata = {
   title: 'Каталог товаров магазина "Северяночка"',
@@ -6,5 +8,9 @@ export const metadata = {
 };
 
 export default function Catalog() {
-  return <CatalogPage />;
+  return (
+    <Suspense fallback={<Loader text="каталога" />}>
+      <CatalogPage />
+    </Suspense>
+  );
 }

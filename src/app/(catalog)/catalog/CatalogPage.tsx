@@ -58,10 +58,7 @@ const CatalogPage = () => {
       });
       if (!response.ok)
         throw new Error('Ошибка при обновлении порядка');
-      const result = await response.json();
-      if (result.success) {
-        console.log('Порядок успешно обновлен в БД');
-      }
+      await response.json();
     } catch (error) {
       console.log('Ошибка при сохранении порядка:', error);
       setError('Ошибка при сохранении порядка');

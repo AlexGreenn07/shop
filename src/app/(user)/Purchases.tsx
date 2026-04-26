@@ -1,22 +1,17 @@
 import fetchPurchases from './fetchPurchases';
 import ProductsSection from '../(products)/ProductsSection';
+import { CONFIG } from '../../../config/config';
 
 const Purchases = async () => {
-  const purchases = await fetchPurchases().catch(() => null);
-  if (!purchases || purchases.length === 0) {
-    return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить покупки
-      </div>
-    );
-  }
+  const { items } = await fetchPurchases({
+    userPurchasesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
+  });
 
   return (
     <ProductsSection
       title="Покупали раньше"
       viewAllButton={{ text: 'Все покупки', href: 'purchases' }}
-      products={purchases}
-      compact
+      products={items}
     />
   );
 };

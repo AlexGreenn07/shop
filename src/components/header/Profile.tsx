@@ -10,7 +10,7 @@ function Profile() {
         alt="Ваш профиль"
         width={40}
         height={40}
-        className="min-h-10 min-w-10"
+        className="h-auto min-h-10 min-w-10"
       />
       <p className="hidden cursor-pointer p-2.5 xl:block">Алексей</p>
       <button className="hidden cursor-pointer p-2 xl:block">
@@ -20,6 +20,7 @@ function Profile() {
           width={24}
           height={24}
           sizes="24px"
+          style={{ height: 'auto' }}
         />
       </button>
     </div>

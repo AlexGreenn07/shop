@@ -6,12 +6,11 @@ const ArticlesSection = ({
   title,
   viewAllButton,
   articles,
-  compact = false,
 }: articlesSectionProps) => {
   return (
     <section>
       <div
-        className={`flex w-full flex-col justify-center text-[#414141] ${!compact ? 'px-[max(12px,calc((100%-1208px)/2))]' : ''}`}
+        className={`align-center flex flex-col justify-center px-[max(12px,calc((100%-1208px)/2))]`}
       >
         <div className="mb-4 flex flex-row justify-between md:mb-8 xl:mb-10">
           <h2 className="text-left text-2xl font-bold text-[#414141] xl:text-4xl">
@@ -25,11 +24,8 @@ const ArticlesSection = ({
           )}
         </div>
         <ul className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
-          {articles.map((article, index) => (
-            <li
-              key={article._id}
-              className={`p-2 ${index >= 3 ? 'hidden' : ''}`}
-            >
+          {articles.map((article) => (
+            <li key={article._id} className={`p-2`}>
               <ArticleCard {...article} />
             </li>
           ))}

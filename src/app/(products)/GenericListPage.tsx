@@ -19,33 +19,39 @@ const GenericListPage = async ({
   const currentPage = Number(page) || 1;
   const perPage = Number(itemsPerPage);
   const startIdx = (currentPage - 1) * perPage;
-  let items;
+  let data;
+  let fetchError;
 
   try {
-    items = await props.fetchData();
+    data = await props.fetchData({
+      pagination: { startIdx, perPage },
+    });
   } catch {
-    return <div className="text-red-500">{props.errorMessage}</div>;
+    fetchError = props.errorMessage;
   }
-  const paginatedItems = items.slice(startIdx, startIdx + perPage);
+
+  if (!data) throw new Error(`Ошибка ответа сервера: ${fetchError}`);
+
+  const { items, totalCount } = data;
+  const totalPages = Math.ceil(totalCount / perPage);
+
   return (
     <>
       {!props.contentType ? (
         <ProductsSection
           title={props.pageTitle}
-          // viewAllButton={{ text: 'На главную', href: '/' }}
-          products={paginatedItems as ProductCardProps[]}
+          products={items as ProductCardProps[]}
         />
       ) : (
         <ArticlesSection
           title={props.pageTitle}
-          // viewAllButton={{ text: 'На главную', href: '/' }}
-          articles={paginatedItems as ArticleCardProps[]}
+          articles={items as ArticleCardProps[]}
         />
       )}
 
-      {items.length > perPage && (
+      {totalPages > 1 && (
         <PaginationWrapper
-          totalItems={items.length}
+          totalItems={totalCount}
           currentPage={currentPage}
           basePath={props.basePath}
           contentType={props.contentType}
