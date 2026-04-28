@@ -12,7 +12,7 @@ const ProductCard = ({
   basePrice,
   discountPercent = 0,
   rating,
-  categories,
+  tags,
 }: ProductCardProps) => {
   const calculateFinalPrice = (
     price: number,
@@ -28,7 +28,7 @@ const ProductCard = ({
     return calculateFinalPrice(price, discount);
   };
 
-  const isNewProduct = categories?.includes('new');
+  const isNewProduct = tags?.includes('new');
   const finalPrice = isNewProduct
     ? basePrice
     : calculateFinalPrice(basePrice, discountPercent);
