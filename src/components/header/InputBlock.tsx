@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from 'react';
 import { SearchProduct } from '@/types/searchProduct';
 import { TRANSLATIONS } from '@/utils/translations';
 import HighlightText from './HighlightText';
+import { useRouter } from 'next/navigation';
 
 function InputBlock() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -60,23 +62,42 @@ function InputBlock() {
     setIsOpen(false);
     setQuery('');
   };
+
+  const handleSearch = () => {
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+      setIsOpen(false);
+    }
+  };
   return (
     <div className="relative min-w-65.25 grow" ref={searchRef}>
       <div className="relative rounded border border-(--color-primary) leading-[150%] active:shadow-(--shadow-button-default)">
-        <input
-          type="text"
-          placeholder="Найти товар"
-          className="h-10 w-full rounded p-2 text-base text-[#8f8f8f] outline-none"
-          onFocus={handleInputFocus}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <Image
-          src={iconSearch}
-          alt="Поиск"
-          width={24}
-          height={24}
-          className="absolute top-2 right-2"
-        />
+        <form
+          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Найти товар"
+            className="h-10 w-full rounded p-2 text-base text-[#8f8f8f] outline-none"
+            onFocus={handleInputFocus}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="absolute top-2 right-2 h-6 w-6 cursor-pointer"
+          >
+            <Image
+              src={iconSearch}
+              alt="Поиск"
+              width={24}
+              height={24}
+            />
+          </button>
+        </form>
       </div>
       {isOpen && (
         <div className="absolute right-0 left-0 z-10 -mt-0.5 max-h-75 overflow-y-auto rounded-b border border-t-0 border-(--color-primary) bg-white wrap-break-word shadow-inherit">

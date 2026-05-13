@@ -8,7 +8,7 @@ export const Loader = ({
   className = '',
 }: LoaderProps) => (
   <div
-    className={`flex flex-col items-center justify-center gap-3 ${className}`}
+    className={`flex min-h-20 flex-col items-center justify-center gap-3 ${className}`}
   >
     <div className="relative h-12 w-12">
       <div className="absolute h-full w-full animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>

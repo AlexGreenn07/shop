@@ -3,10 +3,12 @@ import iconHeart from '../../public/icons-header/icon-heart.svg';
 import { ProductCardProps } from '@/types/product';
 import { formatPrice } from '@/utils/formatPrice';
 import StarRating from './StarRating';
+import Link from 'next/link';
 
 const cardDiscountPercent = 6;
 
 const ProductCard = ({
+  _id,
   img,
   description,
   basePrice,
@@ -39,65 +41,67 @@ const ProductCard = ({
   const ratingValue = rating?.rate || 5;
 
   return (
-    <div className="flex w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
-      <div className="relative h-40 w-40 md:w-56 xl:w-68">
+    <div className="relative flex h-[349px] w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
+      <button className="absolute top-2 right-2 z-10 h-8 w-8 cursor-pointer rounded bg-[#f3f2f1] p-2 opacity-50 duration-300 hover:bg-[#fcd5ba]">
         <Image
-          src={img}
-          alt="Акция"
-          fill
-          priority={false}
-          className="object-contain pt-2"
-          sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 262px"
+          src={iconHeart}
+          alt="В избранное"
+          width={24}
+          height={24}
+          sizes="24px"
         />
-        <button className="absolute top-2 right-2 h-8 w-8 cursor-pointer rounded bg-[#f3f2f1] p-2 opacity-50 duration-300 hover:bg-[#fcd5ba]">
+      </button>
+      <Link href={`/product/${_id}`}>
+        <div className="relative h-40 w-40 md:w-56 xl:w-68">
           <Image
-            src={iconHeart}
-            alt="В избранное"
-            width={24}
-            height={24}
-            sizes="24px"
+            src={img}
+            alt="Акция"
+            fill
+            priority={false}
+            className="object-contain pt-2"
+            sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 262px"
           />
-        </button>
-        {discountPercent > 0 && (
-          <div className="absolute bottom-2.5 left-2.5 rounded bg-[#ff6633] px-2 py-1 text-white">
-            -{discountPercent}%
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col justify-between gap-y-2 p-2">
-        <div className="flex flex-row items-end justify-between">
-          <div className="flex flex-col gap-x-1">
-            <div className="flex flex-row gap-x-1 text-sm font-bold text-[#414141] md:text-lg">
-              <span>{formatPrice(priceByCard)}</span>
-              <span>₽</span>
-            </div>
-            {discountPercent > 0 && (
-              <p className="text-[8px] text-[#bfbfbf] md:text-xs">
-                С картой
-              </p>
-            )}
-          </div>
-          {finalPrice !== basePrice && cardDiscountPercent > 0 && (
-            <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-xs text-[#606060] md:text-base">
-                <span>{formatPrice(finalPrice)}</span>
-                <span>₽</span>
-              </div>
-              <p className="text-right text-[8px] text-[#bfbfbf] md:text-xs">
-                Обычная
-              </p>
+          {discountPercent > 0 && (
+            <div className="absolute bottom-2.5 left-2.5 rounded bg-[#ff6633] px-2 py-1 text-white">
+              -{discountPercent}%
             </div>
           )}
         </div>
-        <div className="line-clamp-3 h-13.5 text-xs leading-normal text-[#414141] md:line-clamp-2 md:text-base">
-          {description}
+
+        <div className="flex h-[189px] flex-col p-2">
+          <div className="flex h-[45px] flex-row items-start justify-between">
+            <div className="flex flex-col gap-x-1">
+              <div className="flex flex-row gap-x-1 text-sm font-bold text-[#414141] md:text-lg">
+                <span>{formatPrice(priceByCard)}</span>
+                <span>₽</span>
+              </div>
+              {discountPercent > 0 && (
+                <p className="text-[8px] text-[#bfbfbf] md:text-xs">
+                  С картой
+                </p>
+              )}
+            </div>
+            {finalPrice !== basePrice && cardDiscountPercent > 0 && (
+              <div className="flex flex-col gap-x-1">
+                <div className="flex flex-row gap-x-1 text-xs text-[#606060] md:text-base">
+                  <span>{formatPrice(finalPrice)}</span>
+                  <span>₽</span>
+                </div>
+                <p className="text-right text-[8px] text-[#bfbfbf] md:text-xs">
+                  Обычная
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="line-clamp-3 h-13.5 text-xs leading-normal text-[#414141] md:line-clamp-2 md:text-base">
+            {description}
+          </div>
+          {ratingValue > 0 && <StarRating rating={ratingValue} />}
         </div>
-        {ratingValue > 0 && <StarRating rating={ratingValue} />}
-        <button className="h-10 w-full cursor-pointer items-center justify-center rounded border border-(--color-primary) p-2 text-(--color-primary) transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active)">
-          В корзину
-        </button>
-      </div>
+      </Link>
+      <button className="absolute right-2 bottom-2 left-2 h-10 cursor-pointer items-center justify-center rounded border border-(--color-primary) text-(--color-primary) transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active)">
+        В корзину
+      </button>
     </div>
   );
 };

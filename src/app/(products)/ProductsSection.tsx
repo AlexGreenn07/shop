@@ -24,11 +24,8 @@ const ProductsSection = ({
           )}
         </div>
         <ul className="grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-4 xl:gap-8">
-          {products.map((item, index) => (
-            <li
-              key={item._id}
-              className={`${index >= 3 ? 'md:hidden xl:block' : ''}`}
-            >
+          {products.map((item) => (
+            <li key={item._id}>
               <ProductCard {...item} />
             </li>
           ))}
