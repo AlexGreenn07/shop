@@ -41,7 +41,7 @@ const ProductCard = ({
   const ratingValue = rating?.rate || 5;
 
   return (
-    <div className="relative flex h-[349px] w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
+    <div className="relative flex h-87.25 w-40 flex-col justify-between overflow-hidden rounded bg-white p-0 align-top duration-300 hover:shadow-(--shadow-article) md:w-56 xl:w-68">
       <button className="absolute top-2 right-2 z-10 h-8 w-8 cursor-pointer rounded bg-[#f3f2f1] p-2 opacity-50 duration-300 hover:bg-[#fcd5ba]">
         <Image
           src={iconHeart}
@@ -68,8 +68,8 @@ const ProductCard = ({
           )}
         </div>
 
-        <div className="flex h-[189px] flex-col p-2">
-          <div className="flex h-[45px] flex-row items-start justify-between">
+        <div className="flex h-47.25 flex-col p-2">
+          <div className="flex h-11.25 flex-row items-start justify-between">
             <div className="flex flex-col gap-x-1">
               <div className="flex flex-row gap-x-1 text-sm font-bold text-[#414141] md:text-lg">
                 <span>{formatPrice(priceByCard)}</span>

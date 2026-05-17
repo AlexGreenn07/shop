@@ -9,7 +9,11 @@ import { TRANSLATIONS } from '@/utils/translations';
 import HighlightText from './HighlightText';
 import { useRouter } from 'next/navigation';
 
-function InputBlock() {
+function InputBlock({
+  onFocusChangeAction,
+}: {
+  onFocusChangeAction: (focused: boolean) => void;
+}) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -57,6 +61,7 @@ function InputBlock() {
   }, [query]);
   const handleInputFocus = () => {
     setIsOpen(true);
+    onFocusChangeAction(true);
   };
   const resetSearch = () => {
     setIsOpen(false);
@@ -66,8 +71,12 @@ function InputBlock() {
   const handleSearch = () => {
     if (query.trim()) {
       router.push(`/search?q=${encodeURIComponent(query)}`);
-      setIsOpen(false);
+      resetSearch();
     }
+  };
+
+  const handleInputBlur = () => {
+    onFocusChangeAction(false);
   };
   return (
     <div className="relative min-w-65.25 grow" ref={searchRef}>
@@ -81,10 +90,12 @@ function InputBlock() {
         >
           <input
             type="text"
+            value={query}
             placeholder="Найти товар"
             className="h-10 w-full rounded p-2 text-base text-[#8f8f8f] outline-none"
             onFocus={handleInputFocus}
             onChange={(e) => setQuery(e.target.value)}
+            onBlur={handleInputBlur}
           />
           <button
             type="submit"
