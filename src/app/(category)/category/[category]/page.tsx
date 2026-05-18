@@ -1,11 +1,32 @@
+import GenericListPage from '@/app/(products)/GenericListPage';
+import { Loader } from '@/components/Loader';
+import { TRANSLATIONS } from '@/utils/translations';
+import { Suspense } from 'react';
+import fetchProductsByCategory from '../../fetchProductsByCategory';
 import ErrorComponent from '@/components/ErrorComponent';
 
-const CategoryPage = async ({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ category: string }>;
+}) {
+  const { category } = await params;
+  return {
+    title: TRANSLATIONS[category] || category,
+    description: `Описание категории товаров "${
+      TRANSLATIONS[category] || category
+    }" магазина "Северяночка"`,
+  };
+}
+
+const CategoryPage = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ category: string }>;
+  searchParams: Promise<{ page?: string; itemPerPage?: string }>;
 }) => {
-  let category: string = '';
+  let category;
   try {
     category = (await params).category;
   } catch (error) {
@@ -18,8 +39,22 @@ const CategoryPage = async ({
       />
     );
   }
-
-  return <div>Страница категории: {category}</div>;
+  return (
+    <Suspense fallback={<Loader />}>
+      <GenericListPage
+        searchParams={searchParams}
+        props={{
+          fetchData: ({ pagination: { startIdx, perPage } }) =>
+            fetchProductsByCategory(category, {
+              pagination: { startIdx, perPage },
+            }),
+          pageTitle: TRANSLATIONS[category] || category,
+          basePath: `/category/${category}`,
+          contentType: 'category',
+        }}
+      />
+    </Suspense>
+  );
 };
 
 export default CategoryPage;

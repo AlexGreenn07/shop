@@ -1,6 +1,6 @@
 'use client';
 
-import ProductsSection from '@/app/(products)/ProductsSection';
+import ProductsSection from '@/components/ProductsSection';
 import ErrorComponent from '@/components/ErrorComponent';
 import { Loader } from '@/components/Loader';
 import { ProductCardProps } from '@/types/product';

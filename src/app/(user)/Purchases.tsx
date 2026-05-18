@@ -1,7 +1,7 @@
 import fetchPurchases from './fetchPurchases';
 import { CONFIG } from '../../../config/config';
 import ErrorComponent from '@/components/ErrorComponent';
-import ProductsSection from '../(products)/ProductsSection';
+import ProductsSection from '../../components/ProductsSection';
 
 const Purchases = async () => {
   try {

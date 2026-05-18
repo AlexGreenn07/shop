@@ -1,5 +1,5 @@
 import { GenericListPageProps } from '@/types/genericListPageProps';
-import ProductsSection from './ProductsSection';
+import ProductsSection from '../../components/ProductsSection';
 import { CONFIG } from '../../../config/config';
 import PaginationWrapper from '@/components/PaginationWrapper';
 import ArticlesSection from '../(articles)/ArticlesSection';
@@ -16,7 +16,11 @@ const GenericListPage = async ({
 }) => {
   const params = await searchParams;
   const page = params?.page;
-  const itemsPerPage = params?.itemsPerPage || CONFIG.ITEMS_PER_PAGE;
+  const defaultItemPerPage =
+    props.contentType === 'category'
+      ? CONFIG.ITEMS_PER_PAGE_CATEGORY
+      : CONFIG.ITEMS_PER_PAGE;
+  const itemsPerPage = params?.itemsPerPage || defaultItemPerPage;
   const currentPage = Number(page) || 1;
   const perPage = Number(itemsPerPage);
   const startIdx = (currentPage - 1) * perPage;
@@ -45,10 +49,14 @@ const GenericListPage = async ({
 
   return (
     <>
-      {!props.contentType ? (
+      {!props.contentType || props.contentType === 'category' ? (
         <ProductsSection
           title={props.pageTitle}
           products={items as ProductCardProps[]}
+          applyIndexStyles={
+            props.contentType === 'category' ? false : true
+          }
+          contentType={props.contentType}
         />
       ) : (
         <ArticlesSection
