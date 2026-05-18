@@ -1,4 +1,4 @@
-import { CatalogProps } from '@/types/catalog';
+import { CatalogProps } from '@/types/catalogProps';
 import { getDB } from '@/utils/api-routes';
 import { ObjectId } from 'mongodb';
 import { NextResponse } from 'next/server';
@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         filter: { _id: new ObjectId(category._id) },
         update: {
           $set: {
+            slug: category.slug,
             order: category.order,
             title: category.title,
             img: category.img,

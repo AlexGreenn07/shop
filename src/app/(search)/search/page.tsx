@@ -1,16 +1,29 @@
 'use client';
 
 import ProductsSection from '@/app/(products)/ProductsSection';
+import ErrorComponent from '@/components/ErrorComponent';
 import { Loader } from '@/components/Loader';
 import { ProductCardProps } from '@/types/product';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SearchResult />
+    </Suspense>
+  );
+};
 
 const SearchResult = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<{
+    error: Error;
+    userMessage: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -22,7 +35,13 @@ const SearchResult = () => {
         const data = await response.json();
         setProducts(data);
       } catch (error) {
-        console.error('Не удалось получить результаты', error);
+        setError({
+          error:
+            error instanceof Error
+              ? error
+              : new Error('Неизвестная ошибка'),
+          userMessage: 'Не удалось получить результаты поиска',
+        });
       } finally {
         setIsLoading(false);
       }
@@ -33,6 +52,15 @@ const SearchResult = () => {
   }, [query]);
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <ErrorComponent
+        error={error.error}
+        userMessage={error.userMessage}
+      />
+    );
   }
 
   return (
@@ -56,4 +84,4 @@ const SearchResult = () => {
   );
 };
 
-export default SearchResult;
+export default SearchPage;

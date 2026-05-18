@@ -5,6 +5,7 @@ import PaginationWrapper from '@/components/PaginationWrapper';
 import ArticlesSection from '../(articles)/ArticlesSection';
 import { ProductCardProps } from '@/types/product';
 import { ArticleCardProps } from '@/types/articles';
+import ErrorComponent from '@/components/ErrorComponent';
 
 const GenericListPage = async ({
   searchParams,
@@ -26,8 +27,15 @@ const GenericListPage = async ({
     data = await props.fetchData({
       pagination: { startIdx, perPage },
     });
-  } catch {
-    fetchError = props.errorMessage;
+  } catch (error) {
+    return (
+      <ErrorComponent
+        error={
+          error instanceof Error ? error : new Error(String(error))
+        }
+        userMessage="Не удалось загрузить акции"
+      />
+    );
   }
 
   if (!data) throw new Error(`Ошибка ответа сервера: ${fetchError}`);

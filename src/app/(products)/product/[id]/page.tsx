@@ -1,3 +1,5 @@
+import ErrorComponent from '@/components/ErrorComponent';
+
 const ProductPage = async ({
   params,
 }: {
@@ -7,8 +9,16 @@ const ProductPage = async ({
   try {
     productId = (await params).id;
   } catch (error) {
-    console.error('Ошибка получения продукта:', error);
+    return (
+      <ErrorComponent
+        error={
+          error instanceof Error ? error : new Error(String(error))
+        }
+        userMessage="Не удалось загрузить данные о продукте"
+      />
+    );
   }
+
   return <div>Страница продукта: {productId}</div>;
 };
 

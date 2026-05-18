@@ -1,25 +1,32 @@
 import fetchArticles from './fetchArticles';
-import ArticlesSection from './ArticlesSection';
+import ArticleSection from './ArticlesSection';
 import { CONFIG } from '../../../config/config';
+import ErrorComponent from '@/components/ErrorComponent';
 
-export default async function Articles() {
-  const { items } = await fetchArticles({
-    articlesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_ARTICLES,
-  });
+const Articles = async () => {
+  try {
+    const { items } = await fetchArticles({
+      articlesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_ARTICLES,
+    });
 
-  if (!items || items.length === 0) {
     return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить статьи
-      </div>
+      // eslint-disable-next-line react-hooks/error-boundaries
+      <ArticleSection
+        title="Статьи"
+        viewAllButton={{ text: 'Все статьи', href: 'articles' }}
+        articles={items}
+      />
+    );
+  } catch (error) {
+    return (
+      <ErrorComponent
+        error={
+          error instanceof Error ? error : new Error(String(error))
+        }
+        userMessage="Не удалось загрузить статьи"
+      />
     );
   }
+};
 
-  return (
-    <ArticlesSection
-      title="Статьи"
-      viewAllButton={{ text: 'Все статьи', href: 'articles' }}
-      articles={items}
-    />
-  );
-}
+export default Articles;

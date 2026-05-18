@@ -55,7 +55,6 @@ export async function GET(request: Request) {
       .limit(perPage)
       .toArray();
 
-    console.log(purchases);
     return NextResponse.json({ products: purchases, totalCount });
   } catch (error) {
     console.error('Ошибка сервера:', error);
