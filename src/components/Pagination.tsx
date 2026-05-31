@@ -53,7 +53,7 @@ const Pagination = ({
   const pageButtonClass = `border border-[#ff6633] ${buttonSize}`;
 
   return (
-    <div className="mt-10 mb-20 flex justify-center text-sm text-white md:text-base">
+    <div className="mt-10 flex justify-center text-sm text-white md:text-base">
       <nav className="flex items-center gap-1 md:gap-2">
         <Link
           href={createPageUrl(basePath, params, 1)}

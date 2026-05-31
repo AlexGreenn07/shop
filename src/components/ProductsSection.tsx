@@ -32,18 +32,22 @@ const ProductsSection = ({
             />
           )}
         </div>
-        <ul
-          className={`grid justify-items-center gap-4 md:gap-6 xl:gap-8 ${gridClasses}`}
-        >
-          {products.map((item, index) => (
-            <li
-              key={item._id}
-              className={`${applyIndexStyles ? (index >= 3 ? 'md:hidden xl:block' : '') : ''}`}
-            >
-              <ProductCard {...item} />
-            </li>
-          ))}
-        </ul>
+        {products && products.length > 0 ? (
+          <ul
+            className={`grid justify-items-center gap-4 md:gap-6 xl:gap-8 ${gridClasses}`}
+          >
+            {products.map((item, index) => (
+              <li
+                key={item._id}
+                className={`${applyIndexStyles ? (index >= 3 ? 'md:hidden xl:block' : '') : ''}`}
+              >
+                <ProductCard {...item} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>Товары не найдены</div>
+        )}
       </div>
     </section>
   );

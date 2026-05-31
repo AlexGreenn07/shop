@@ -13,7 +13,7 @@ function Footer() {
     { title: 'Политика обработки персональных данных', href: '#' },
   ];
   return (
-    <footer className="relative isolate mb-14 w-full bg-[#f9f4e2] px-[max(12px,calc((100%-1208px)/2))] md:mb-0">
+    <footer className="relative isolate mt-10 mb-14 w-full bg-[#f9f4e2] px-[max(12px,calc((100%-1208px)/2))] md:mt-15 md:mb-0 xl:mt-20">
       <div className="absolute inset-0 -z-10 bg-[url('/images/graphics/pattern-footer.png')] opacity-50" />
       <div className="grid grid-cols-2 items-center gap-y-4 px-7 py-10 text-[#414141] [grid-template-areas:'logo_social''logo_phone''nav_nav''design_design'] md:grid-cols-[auto_1fr_auto_auto] md:gap-x-6 md:[grid-template-areas:'logo_nav_social_phone''logo_nav_social_design'] xl:gap-x-10 xl:[grid-template-areas:'logo_nav_social_phone''._._._design']">
         <div className="[grid-area:logo]">

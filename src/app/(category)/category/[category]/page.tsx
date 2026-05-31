@@ -4,6 +4,9 @@ import { TRANSLATIONS } from '@/utils/translations';
 import { Suspense } from 'react';
 import fetchProductsByCategory from '../../fetchProductsByCategory';
 import ErrorComponent from '@/components/ErrorComponent';
+import FilterButtons from '../../FilterButtons';
+
+import FilterControls from '../../FilterControls';
 
 export async function generateMetadata({
   params,
@@ -24,11 +27,19 @@ const CategoryPage = async ({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: Promise<{ page?: string; itemPerPage?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    itemPerPage?: string;
+    filter?: string | string[];
+  }>;
 }) => {
   let category;
+  let resolvedSearchParams;
+  let activeFilter;
   try {
     category = (await params).category;
+    resolvedSearchParams = await searchParams;
+    activeFilter = resolvedSearchParams.filter;
   } catch (error) {
     return (
       <ErrorComponent
@@ -40,20 +51,34 @@ const CategoryPage = async ({
     );
   }
   return (
-    <Suspense fallback={<Loader />}>
-      <GenericListPage
-        searchParams={searchParams}
-        props={{
-          fetchData: ({ pagination: { startIdx, perPage } }) =>
-            fetchProductsByCategory(category, {
-              pagination: { startIdx, perPage },
-            }),
-          pageTitle: TRANSLATIONS[category] || category,
-          basePath: `/category/${category}`,
-          contentType: 'category',
+    <div className="px-[max(12px,calc((100%-1208px)/2))]">
+      <h1 className="mb-15 text-left text-2xl font-bold text-[#414141] xl:text-4xl">
+        {TRANSLATIONS[category] || category}
+      </h1>
+      <FilterButtons basePath={`/category/${category}`} />
+      <FilterControls
+        activeFilter={resolvedSearchParams.filter}
+        basePath={`/category/${category}`}
+        searchParams={{
+          page: resolvedSearchParams.page,
+          itemPerPage: resolvedSearchParams.itemPerPage,
         }}
       />
-    </Suspense>
+      <Suspense fallback={<Loader />}>
+        <GenericListPage
+          searchParams={Promise.resolve(resolvedSearchParams)}
+          props={{
+            fetchData: ({ pagination: { startIdx, perPage } }) =>
+              fetchProductsByCategory(category, {
+                pagination: { startIdx, perPage },
+                filter: activeFilter,
+              }),
+            basePath: `/category/${category}`,
+            contentType: 'category',
+          }}
+        />
+      </Suspense>
+    </div>
   );
 };
 
