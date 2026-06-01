@@ -5,5 +5,7 @@ export interface FilterControlsProps {
     page?: string;
     itemPerPage?: string;
     filter?: string | string[];
+    priceFrom?: string;
+    priceTo?: string;
   };
 }

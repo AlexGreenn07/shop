@@ -3,9 +3,12 @@ const fetchProductsByCategory = async (
   options: {
     pagination: { startIdx: number; perPage: number };
     filter?: string | string[];
+    priceFrom?: string;
+    priceTo?: string;
+    inStock?: boolean;
   }
 ) => {
-  const { pagination, filter } = options;
+  const { pagination, filter, priceFrom, priceTo, inStock } = options;
 
   try {
     const url = new URL(
@@ -24,6 +27,17 @@ const fetchProductsByCategory = async (
       } else {
         url.searchParams.append('filter', filter);
       }
+    }
+
+    if (priceFrom) {
+      url.searchParams.append('priceFrom', priceFrom);
+    }
+    if (priceTo) {
+      url.searchParams.append('priceTo', priceTo);
+    }
+
+    if (inStock !== undefined) {
+      url.searchParams.append('inStock', inStock.toString());
     }
     const res = await fetch(url.toString(), {
       next: { revalidate: 3600 },

@@ -7,6 +7,9 @@ function FilterControls({
   basePath,
   searchParams = {},
 }: FilterControlsProps) {
+  const minPrice = searchParams.priceFrom;
+  const maxPrice = searchParams.priceTo;
+
   function buildClearFiltersLink() {
     const params = new URLSearchParams();
 
@@ -17,14 +20,28 @@ function FilterControls({
       params.set('itemPerPage', searchParams.itemPerPage);
     }
     params.delete('filter');
+    params.delete('priceFrom');
+    params.delete('priceTo');
 
-    return `${basePath}?${params.toString}`;
+    return `${basePath}?${params.toString()}`;
   }
-  const activeFilterCount = activeFilter
-    ? Array.isArray(activeFilter)
-      ? activeFilter.length
-      : 1
-    : 0;
+
+  const hasPriceFilter = minPrice || maxPrice;
+
+  const buildClearPriceFilterLink = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('priceFrom');
+    params.delete('priceTo');
+
+    return `${basePath}?${params.toString()}`;
+  };
+
+  const activeFilterCount =
+    (activeFilter
+      ? Array.isArray(activeFilter)
+        ? activeFilter.length
+        : 1
+      : 0) + (hasPriceFilter ? 1 : 0);
   const filterButtonText =
     activeFilterCount === 0
       ? 'Фильтры'
@@ -33,16 +50,34 @@ function FilterControls({
         : `Фильтры ${activeFilterCount}`;
 
   return (
-    <div className="mb-6 flex flex-row gap-x-6">
+    <div className="mb-6 hidden flex-row flex-wrap gap-x-6 gap-y-3 xl:flex">
       <div
         className={`flex h-8 cursor-not-allowed items-center justify-center gap-x-2 rounded p-2 text-xs duration-300 ${
-          !activeFilter || activeFilter.length === 0
-            ? 'bg-[#f3f2f1] text-[#606060]'
-            : 'bg-(--color-primary) text-white'
+          (activeFilter && activeFilter.length > 0) || hasPriceFilter
+            ? 'bg-(--color-primary) text-white'
+            : 'bg-[#f3f2f1] text-[#606060]'
         }`}
       >
         {filterButtonText}
       </div>
+      {hasPriceFilter && (
+        <div className="flex h-8 items-center justify-center gap-x-2 rounded bg-(--color-primary) p-2 text-xs text-white duration-300">
+          <Link
+            href={buildClearPriceFilterLink()}
+            className="flex items-center gap-x-2"
+          >
+            Цена {minPrice !== undefined ? `от ${minPrice}` : ''}{' '}
+            {maxPrice !== undefined ? `до ${maxPrice}` : ''}
+            <Image
+              src="/icons-products/icon-closer.svg"
+              alt="Очистить фильтр по цене"
+              width={24}
+              height={24}
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
+          </Link>
+        </div>
+      )}
       <div
         className={`flex h-8 cursor-pointer items-center justify-center gap-x-2 rounded p-2 text-xs duration-300 ${
           !activeFilter || activeFilter.length === 0
@@ -54,7 +89,7 @@ function FilterControls({
           className="flex items-center gap-x-2"
           href={buildClearFiltersLink()}
         >
-          Очистить фильтры{' '}
+          Очистить фильтры
           <Image
             src="/icons-products/icon-closer.svg"
             alt="Очистить фильтры"
