@@ -8,6 +8,7 @@ import FilterButtons from '../../FilterButtons';
 
 import FilterControls from '../../FilterControls';
 import PriceFilter from '../../PriceFilter';
+import DropFilter from '../../DropFilter';
 
 export async function generateMetadata({
   params,
@@ -65,7 +66,13 @@ const CategoryPage = async ({
       <h1 className="mb-8 ml-3 max-w-84 text-left text-4xl leading-[150%] font-bold text-[#414141] md:mb-10 md:max-w-max md:text-5xl xl:mb-15 xl:ml-0">
         {TRANSLATIONS[category] || category}
       </h1>
-      <FilterButtons basePath={`/category/${category}`} />
+      <DropFilter
+        basePath={`/category/${category}`}
+        category={category}
+      />
+      <div className="hidden xl:flex">
+        <FilterButtons basePath={`/category/${category}`} />
+      </div>
       <div className="flex flex-row justify-between gap-x-10">
         <div className="hidden w-68 flex-col gap-y-10 xl:flex">
           <div className="flex h-11 items-center rounded bg-[#f3f2f1] p-2.5 text-base font-bold text-[#414141]">
@@ -77,16 +84,13 @@ const CategoryPage = async ({
           />
         </div>
         <div className="flex flex-col">
-          <FilterControls
-            activeFilter={resolvedSearchParams.filter}
-            basePath={`/category/${category}`}
-            searchParams={{
-              page: resolvedSearchParams.page,
-              itemPerPage: resolvedSearchParams.itemPerPage,
-              priceFrom,
-              priceTo,
-            }}
-          />
+          <div className="hidden xl:flex">
+            <FilterControls
+              activeFilter={resolvedSearchParams.filter}
+              basePath={`/category/${category}`}
+            />
+          </div>
+
           <Suspense fallback={<Loader />}>
             <GenericListPage
               searchParams={Promise.resolve(resolvedSearchParams)}

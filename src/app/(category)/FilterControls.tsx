@@ -1,23 +1,26 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FilterControlsProps } from '@/types/FilterControlsProps';
+import { useSearchParams } from 'next/navigation';
 
-function FilterControls({
-  activeFilter,
-  basePath,
-  searchParams = {},
-}: FilterControlsProps) {
-  const minPrice = searchParams.priceFrom;
-  const maxPrice = searchParams.priceTo;
+function FilterControls({ basePath }: FilterControlsProps) {
+  const searchParams = useSearchParams();
+  const minPrice = searchParams.get('priceFrom');
+  const maxPrice = searchParams.get('priceTo');
+  const activeFilter = searchParams.getAll('filter');
 
   function buildClearFiltersLink() {
     const params = new URLSearchParams();
 
-    if (searchParams.page) {
-      params.set('page', searchParams.page);
+    if (searchParams.get('page')) {
+      params.set('page', searchParams.get('page') || '');
     }
-    if (searchParams.itemPerPage) {
-      params.set('itemPerPage', searchParams.itemPerPage);
+    if (searchParams.get('itemPerPage')) {
+      params.set(
+        'itemPerPage',
+        searchParams.get('itemPerPage') || ''
+      );
     }
     params.delete('filter');
     params.delete('priceFrom');
@@ -50,7 +53,7 @@ function FilterControls({
         : `Фильтры ${activeFilterCount}`;
 
   return (
-    <div className="mb-6 hidden flex-row flex-wrap gap-x-6 gap-y-3 xl:flex">
+    <div className="flex flex-row flex-wrap items-center gap-4">
       <div
         className={`flex h-8 cursor-not-allowed items-center justify-center gap-x-2 rounded p-2 text-xs duration-300 ${
           (activeFilter && activeFilter.length > 0) || hasPriceFilter

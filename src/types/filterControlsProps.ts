@@ -1,7 +1,7 @@
 export interface FilterControlsProps {
   activeFilter?: string | string[];
   basePath: string;
-  searchParams: {
+  searchParams?: {
     page?: string;
     itemPerPage?: string;
     filter?: string | string[];

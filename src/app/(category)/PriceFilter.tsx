@@ -1,6 +1,4 @@
 'use client';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, {
   SubmitEvent,
@@ -8,13 +6,20 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Image from 'next/image';
 import { CONFIG } from '../../../config/config';
 import { PriceCategoryProps, PriceRange } from '@/types/priceTypes';
 import ErrorComponent from '@/components/ErrorComponent';
 import MiniLoader from '@/components/MiniLoader';
+import PriceFilterHeader from './PriceFilterHeader';
+import PriceInputs from './PriceInputs';
+import PriceRangeSlider from './PriceRangeSlider';
+import InStockToggle from './InStockToggle';
 
-const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
+const PriceFilter = ({
+  basePath,
+  category,
+  setIsFilterOpenAction,
+}: PriceCategoryProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<{
     error: Error;
@@ -54,17 +59,14 @@ const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
       const data = await response.json();
       const receivedRange =
         data.priceRange || CONFIG.FALLBACK_PRICE_RANGE;
-      setPriceRange({
+      const roundedRange = {
         min: Math.floor(parseInt(receivedRange.min)),
         max: Math.ceil(parseInt(receivedRange.max)),
-      });
+      };
+      setPriceRange(roundedRange);
       setInputValues({
-        from:
-          urlPriceFrom ||
-          Math.floor(parseInt(receivedRange.min)).toString(),
-        to:
-          urlPriceTo ||
-          Math.ceil(parseInt(receivedRange.max)).toString(),
+        from: urlPriceFrom || roundedRange.min.toString(),
+        to: urlPriceTo || roundedRange.max.toString(),
       });
     } catch (error) {
       setError({
@@ -91,6 +93,9 @@ const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
   const handleSubmit = (event: SubmitEvent) => {
     event.preventDefault();
     applyPriceFilter();
+    if (setIsFilterOpenAction) {
+      setIsFilterOpenAction(false);
+    }
   };
 
   const applyPriceFilter = useCallback(() => {
@@ -126,13 +131,6 @@ const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
     parseInt(inputValues.to) || priceRange.max,
   ];
 
-  const handleInStockChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInStock(e.target.checked);
-    },
-    []
-  );
-
   const hanleSliderChange = useCallback(
     (values: number | number[]) => {
       if (Array.isArray(values)) {
@@ -166,7 +164,6 @@ const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setInputValues((prev) => ({ ...prev, [name]: value }));
-      return <></>;
     },
     []
   );
@@ -184,99 +181,24 @@ const PriceFilter = ({ basePath, category }: PriceCategoryProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-10 flex flex-col gap-y-10 text-[#414141] xl:mt-0"
+      className="flex flex-col gap-y-10 text-[#414141]"
     >
-      <div className="flex flex-row items-center justify-between">
-        <p className="text-base text-black">Цена</p>
-        <button
-          type="button"
-          onClick={resetPriceFilter}
-          className="h-8 cursor-pointer rounded bg-[#f3f2f1] p-2 text-xs"
-        >
-          Очистить
-        </button>
-      </div>
-      <div className="flex flex-row items-center justify-between gap-2">
-        <input
-          type="number"
-          name="from"
-          value={inputValues.from}
-          onChange={handleInputChange}
-          placeholder={`${priceRange.min}`}
-          min={priceRange.min}
-          max={priceRange.max}
-          className="h-10 w-31 rounded border border-[#bfbfbf] bg-white px-4 py-2"
-        />
-        <Image
-          src="/icons-products/icon-line.svg"
-          alt="до"
-          width={24}
-          height={24}
-        />
-        <input
-          type="number"
-          name="to"
-          value={inputValues.to}
-          onChange={handleInputChange}
-          placeholder={`${priceRange.max}`}
-          min={priceRange.min}
-          max={priceRange.max}
-          className="h-10 w-31 rounded border border-[#bfbfbf] bg-white px-4 py-2"
-        />
-      </div>
-      <div className="mx-auto w-[320px] px-2 xl:w-68">
-        <Slider
-          range
-          min={priceRange.min}
-          max={priceRange.max}
-          value={sliderValues}
-          onChange={hanleSliderChange}
-          styles={{
-            track: {
-              backgroundColor: '#70c05b',
-              height: 4,
-            },
-            handle: {
-              width: 20,
-              height: 20,
-              backgroundColor: '#70c05b',
-              border: '1px solid #ffffff',
-              borderRadius: '50%',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-              marginTop: -8,
-              cursor: 'pointer',
-              opacity: 1,
-            },
-            rail: {
-              backgroundColor: '#f0f0f0',
-              height: 4,
-            },
-          }}
-        />
-      </div>
-      <div className="flex items-center gap-2">
-        <label className="relative inline-flex cursor-pointer items-center">
-          <input
-            type="checkbox"
-            id="inStock"
-            checked={inStock}
-            onChange={handleInStockChange}
-            className="peer sr-only"
-          />
-          <div className="peer peer-checked:bg-primary h-6 w-11.5 rounded-full bg-gray-200 transition-colors duration-200">
-            <div
-              className={`absolute top-0.5 left-0 h-5 w-5 rounded-full border-[0.5px] border-[rgba(0,0,0,0.04)] bg-white shadow-[0px_1px_1px_rgba(0,0,0,0.08),0px_2px_6px_rgba(0,0,0,0.15)] transition-transform duration-300 ${
-                inStock
-                  ? 'translate-x-6 transform'
-                  : 'translate-x-0 transform'
-              } `}
-            ></div>
-          </div>
-          <span className="ml-2 text-sm text-[#414141]">
-            В наличии
-          </span>
-        </label>
-      </div>
+      <PriceFilterHeader onResetAction={resetPriceFilter} />
+      <PriceInputs
+        from={inputValues.from}
+        to={inputValues.to}
+        handleInputChange={handleInputChange}
+        min={priceRange.min}
+        max={priceRange.max}
+      />
+      <PriceRangeSlider
+        min={priceRange.min}
+        max={priceRange.max}
+        sliderValues={sliderValues}
+        hanleSliderChange={hanleSliderChange}
+      />
+      <InStockToggle inStock={inStock} onChangeAction={setInStock} />
+
       <button
         type="submit"
         className="h-10 cursor-pointer items-center justify-center rounded bg-[#ff6633] text-white duration-300 hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active)"
