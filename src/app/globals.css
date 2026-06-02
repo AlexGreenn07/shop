@@ -18,12 +18,12 @@
   --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
+@media (prefers-color-scheme: dark) {
+  /* :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-  }
-} */
+  } */
+}
 
 body {
   background-color: #fbf8ec;
@@ -35,12 +35,53 @@ body {
   justify-content: space-between;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }
 
 .animate-progress {
   animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 /* [class*='ymaps-2-1-'][class*='-map-copyrights-promo'],

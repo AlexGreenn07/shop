@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FilterControlsProps } from '@/types/FilterControlsProps';
 import { useSearchParams } from 'next/navigation';
+import { FilterControlsProps } from '@/types/filterControlsProps';
 
 function FilterControls({ basePath }: FilterControlsProps) {
   const searchParams = useSearchParams();

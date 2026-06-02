@@ -10,7 +10,7 @@ function TopMenu() {
   const pathname = usePathname();
   const isCatalogPage = pathname === '/catalog';
   return (
-    <ul className="flex flex-row items-end gap-x-6">
+    <ul className="flex flex-row items-end gap-x-6 md:gap-x-5">
       <Link href="/catalog">
         <li className="flex w-11 cursor-pointer flex-col items-center gap-2.5 md:hidden">
           <IconMenuMob isCatalogPage={isCatalogPage} />

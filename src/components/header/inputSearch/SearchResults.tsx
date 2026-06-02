@@ -64,7 +64,9 @@ const SearchResults = ({
     );
   if (query.length > 1) {
     return (
-      <div className="px4 py-2 text-[#8f8f8f]">Ничего не найдено</div>
+      <div className="px-4 py-2 text-[#8f8f8f]">
+        Ничего не найдено
+      </div>
     );
   }
 
