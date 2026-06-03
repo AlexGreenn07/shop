@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import PhoneInput from '../PhoneInput';
 import PersonUnput from '../PersonUnput';
 import PasswordInput from '../PasswordInput';
+import DateInput from '../DateInput';
 
 const initialFormData = {
   phone: '+7',
@@ -118,7 +119,17 @@ function RegisterPage() {
               />
             </div>
             <div className="flex flex-col items-start gap-y-4">
-              Дата рождения
+              <DateInput
+                id="birthdayDate"
+                label="Дата рождения"
+                value={formData.birthdayDate}
+                onChangeAction={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    ['birthdayDate']: value,
+                  }))
+                }
+              />
             </div>
           </div>
         </form>
