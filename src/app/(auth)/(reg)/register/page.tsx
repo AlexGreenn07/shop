@@ -3,9 +3,19 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PhoneInput from '../PhoneInput';
-import PersonUnput from '../PersonUnput';
+import PersonInput from '../PersonInput';
 import PasswordInput from '../PasswordInput';
 import DateInput from '../DateInput';
+import SelectRegion from '../SelectRegion';
+import SelectCity from '../SelectCity';
+import GenderSelect from '../GenderSelect';
+import CardInput from '../CardInput';
+import CheckboxCard from '../CheckboxCard';
+import EmailInput from '../EmailInput';
+import RegFormFooter from '../RegFormFooter';
+import { validateRegisterForm } from '@/utils/validation/form';
+import { Loader } from '@/components/Loader';
+import ErrorComponent from '@/components/ErrorComponent';
 
 const initialFormData = {
   phone: '+7',
@@ -30,6 +40,7 @@ function RegisterPage() {
   } | null>(null);
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
+  const [invalidFormMessage, setInvalidFormMessage] = useState('');
   const router = useRouter();
 
   const handleClose = () => {
@@ -37,18 +48,50 @@ function RegisterPage() {
     router.back();
   };
 
-  const handleSubmit = () => {};
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { id, value } = e.target;
+    const { id, type } = e.target;
+    const value =
+      type === 'checkbox' ? e.target.checked : e.target.value;
+    if (invalidFormMessage) setInvalidFormMessage('');
+    if (id === 'hasCard' && value === true) {
+      setFormData((prev) => ({ ...prev, [id]: value, card: '' }));
+      return;
+    }
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setInvalidFormMessage('');
+
+    const validation = validateRegisterForm(formData);
+    if (!validation.isValid) {
+      setInvalidFormMessage(
+        validation.errorMessage || 'Заполните поля корректно'
+      );
+      setIsLoading(false);
+      return;
+    }
+  };
+
+  const isFormValid = () => validateRegisterForm(formData).isValid;
+
+  if (isLoading) return <Loader />;
+  if (error)
+    return (
+      <ErrorComponent
+        error={error.error}
+        userMessage={error.userMessage}
+      />
+    );
+
   return (
-    <div className="text-[#414141 fixed inset-0 z-100 flex min-h-screen items-center justify-center bg-[#fcd5bacc]">
-      <div className="overflow-y-autorounded m-4 max-h-screen w-full max-w-171.75 bg-white shadow-(--shadow-auth-form)">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] text-[#414141]">
+      <div className="m-4 max-h-[90vh] w-full max-w-171.75 overflow-y-auto rounded bg-white shadow-(--shadow-auth-form)">
         <div className="flex justify-end">
           <button
             onClick={handleClose}
@@ -73,7 +116,7 @@ function RegisterPage() {
           action=""
           onSubmit={handleSubmit}
           autoComplete="off"
-          className="mx-auto flex max-h-screen w-full max-w-138 flex-col justify-center overflow-y-auto"
+          className="mx-auto flex w-full max-w-138 flex-col justify-center overflow-y-auto"
         >
           <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
             <div className="flex flex-col items-start gap-y-4">
@@ -83,13 +126,13 @@ function RegisterPage() {
                 value={formData.phone}
                 onChangeAction={handleChange}
               />
-              <PersonUnput
+              <PersonInput
                 id="surname"
                 label="Фамилия"
                 value={formData.surname}
                 onChangeAction={handleChange}
               />
-              <PersonUnput
+              <PersonInput
                 id="firstName"
                 label="Имя"
                 value={formData.firstName}
@@ -130,8 +173,59 @@ function RegisterPage() {
                   }))
                 }
               />
+              <SelectRegion
+                id="region"
+                label="Регион"
+                value={formData.region}
+                onChangeAction={handleChange}
+              />
+              <SelectCity
+                id="location"
+                label="Населенный пункт"
+                value={formData.location}
+                onChangeAction={handleChange}
+              />
+              <GenderSelect
+                label="Пол"
+                value={formData.gender}
+                onChangeAction={(gender) =>
+                  setFormData((prev) => ({ ...prev, gender }))
+                }
+              />
             </div>
           </div>
+          <h2 className="mt-10 mb-6 text-center text-lg font-bold">
+            Не обязательные поля
+          </h2>
+          <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+            <div className="flex w-65 flex-col gap-y-4">
+              <CardInput
+                id="card"
+                label="Номер карты лояльности"
+                value={formData.card}
+                onChangeAction={handleChange}
+                disabled={formData.hasCard}
+              />
+
+              <CheckboxCard
+                id="hasCard"
+                checked={formData.hasCard}
+                onChangeAction={handleChange}
+              />
+            </div>
+            <EmailInput
+              id="email"
+              label="E-mail"
+              value={formData.email}
+              onChangeAction={handleChange}
+            />
+          </div>
+          {invalidFormMessage && (
+            <div className="my-4 rounded bg-red-50 p-4 text-center text-red-500">
+              {invalidFormMessage}
+            </div>
+          )}
+          <RegFormFooter isFormValid={isFormValid()} />
         </form>
       </div>
     </div>

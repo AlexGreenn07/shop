@@ -3,18 +3,18 @@
 import { ChangeEvent } from 'react';
 import { formStyles } from './styles';
 
-interface PersonInputProps {
+interface EmailInputProps {
   id: string;
   label: string;
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-function PersonUnput({
+function EmailInput({
   id,
   label,
   value,
   onChangeAction,
-}: PersonInputProps) {
+}: EmailInputProps) {
   return (
     <div>
       <label htmlFor={id} className={formStyles.label}>
@@ -22,7 +22,7 @@ function PersonUnput({
       </label>
       <input
         id={id}
-        type="text"
+        type="email"
         value={value}
         placeholder={label}
         onChange={onChangeAction}
@@ -32,4 +32,4 @@ function PersonUnput({
   );
 }
 
-export default PersonUnput;
+export default EmailInput;
