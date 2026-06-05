@@ -16,6 +16,7 @@ import RegFormFooter from '../RegFormFooter';
 import { validateRegisterForm } from '@/utils/validation/form';
 import { Loader } from '@/components/Loader';
 import ErrorComponent from '@/components/ErrorComponent';
+import SuccessModal from '../SuccessModal';
 
 const initialFormData = {
   phone: '+7',
@@ -41,6 +42,7 @@ function RegisterPage() {
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
   const handleClose = () => {
@@ -76,6 +78,39 @@ function RegisterPage() {
       setIsLoading(false);
       return;
     }
+    try {
+      const [day, month, year] = formData.birthdayDate.split('.');
+      const formattedBirthdayDate = new Date(
+        `${year}-${month}-${day}`
+      );
+      const userData = {
+        ...formData,
+        phone: formData.phone.replace(/\D/g, ''),
+        birthdayDate: formattedBirthdayDate,
+      };
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Ошибка регистрации');
+      }
+
+      setIsSuccess(true);
+    } catch (error) {
+      setError({
+        error:
+          error instanceof Error
+            ? error
+            : new Error('Неизвестная ошибка'),
+        userMessage: 'Ошибка регистрации. Попробуйте снова',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isFormValid = () => validateRegisterForm(formData).isValid;
@@ -88,6 +123,8 @@ function RegisterPage() {
         userMessage={error.userMessage}
       />
     );
+
+  if (isSuccess) return <SuccessModal />;
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] text-[#414141]">
@@ -225,7 +262,10 @@ function RegisterPage() {
               {invalidFormMessage}
             </div>
           )}
-          <RegFormFooter isFormValid={isFormValid()} />
+          <RegFormFooter
+            isFormValid={isFormValid()}
+            isLoading={isLoading}
+          />
         </form>
       </div>
     </div>
