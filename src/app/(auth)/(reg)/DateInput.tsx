@@ -1,7 +1,7 @@
 // 'use client';
 
 import { ChangeEvent, useState, useRef } from 'react';
-import { formStyles } from './styles';
+import { formStyles } from '../styles';
 import Image from 'next/image';
 import Tooltip from './Tooltip';
 import { validateBirthDate } from '@/utils/validation/validateBirthDate';

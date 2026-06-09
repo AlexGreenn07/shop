@@ -6,7 +6,7 @@ function ErrorComponent({ error, userMessage }: ErrorProps) {
   console.error('Произошла ошибка:', error);
 
   return (
-    <div>
+    <div className="m-4 rounded bg-red-100 p-4 text-center text-red-800">
       <p>
         {userMessage ||
           'Произошла ошибка. Пожалуйста, попробуйте позже.'}

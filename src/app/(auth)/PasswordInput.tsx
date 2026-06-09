@@ -3,7 +3,7 @@
 import { ChangeEvent } from 'react';
 import { formStyles } from './styles';
 import IconVision from '@/components/svg/IconVision';
-import Tooltip from './Tooltip';
+import Tooltip from './(reg)/Tooltip';
 
 interface PasswordInputProps {
   id: string;

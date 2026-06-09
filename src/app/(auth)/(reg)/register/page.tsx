@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import PhoneInput from '../PhoneInput';
+import PhoneInput from '../../PhoneInput';
 import PersonInput from '../PersonInput';
-import PasswordInput from '../PasswordInput';
+import PasswordInput from '../../PasswordInput';
 import DateInput from '../DateInput';
 import SelectRegion from '../SelectRegion';
 import SelectCity from '../SelectCity';
@@ -90,7 +90,7 @@ function RegisterPage() {
       };
       const res = await fetch('/api/register', {
         method: 'POST',
-        headers: { 'Content type': 'application/json' },
+        headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(userData),
       });
 
@@ -143,10 +143,10 @@ function RegisterPage() {
             />
           </button>
         </div>
-        <h1 className="font-bolt mb-10 text-center text-2xl">
+        <h1 className="mb-10 text-center text-2xl font-bold">
           Регистрация
         </h1>
-        <h2 className="font-bolt mb-6 text-center text-lg">
+        <h2 className="mb-6 text-center text-lg font-bold">
           Обязательные поля
         </h2>
         <form
