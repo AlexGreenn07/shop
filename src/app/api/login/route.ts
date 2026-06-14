@@ -7,26 +7,28 @@ import bcrypt from 'bcrypt';
 export async function POST(request: Request) {
   try {
     const {
-      phone,
+      phoneNumber,
 
       password,
     } = await request.json();
 
     const db = await getDB();
-    if (!phone || !password) {
+    if (!phoneNumber || !password) {
       return NextResponse.json(
         { error: 'Заполните все поля' },
         { status: 400 }
       );
     }
-    const user = await db.collection('users').findOne({ phone });
+    const user = await db
+      .collection('users')
+      .findOne({ phoneNumber });
     if (!user) {
       return NextResponse.json(
         { error: 'Пользователя с таким телефоном не существует' },
         { status: 401 }
       );
     }
-    console.log(user.phone);
+    console.log(user.phoneNumber);
 
     const isPasswordValid = await bcrypt.compare(
       password,
@@ -45,9 +47,9 @@ export async function POST(request: Request) {
         success: true,
         user: {
           _id: user._id.toString(),
-          phone: user.phone,
+          phoneNumber: user.phoneNumber,
           surname: user.surname,
-          firstName: user.firstName,
+          name: user.name,
           email: user.email,
         },
       },

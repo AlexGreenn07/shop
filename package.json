@@ -11,16 +11,20 @@
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
     "@iminside/react-yandex-maps": "^1.2.7",
+    "@react-email/components": "^1.0.12",
     "@react-input/mask": "^2.0.4",
     "bcrypt": "^6.0.0",
+    "better-auth": "^1.6.18",
     "dotenv": "^17.4.0",
+    "lucide-react": "^1.18.0",
     "mongodb": "^7.1.1",
     "mongoose": "^9.3.3",
     "motion": "^12.38.0",
-    "next": "16.1.6",
+    "next": "^16.2.9",
     "rc-slider": "^11.1.9",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "resend": "^6.12.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -37,5 +41,8 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
   }
 }

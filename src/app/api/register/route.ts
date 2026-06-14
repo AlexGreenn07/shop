@@ -7,9 +7,9 @@ import bcrypt from 'bcrypt';
 export async function POST(request: Request) {
   try {
     const {
-      phone,
+      phoneNumber,
       surname,
-      firstName,
+      name,
       password,
       birthdayDate,
       region,
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     const existingUser = await db
       .collection('users')
-      .findOne({ phone });
+      .findOne({ phoneNumber });
     if (existingUser) {
       return NextResponse.json(
         { error: 'Пользователь с таким телефоном уже существует' },
@@ -35,9 +35,9 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await db.collection('users').insertOne({
-      phone,
+      phoneNumber,
       surname,
-      firstName,
+      name,
       password: hashedPassword,
       birthdayDate,
       region,
@@ -55,9 +55,9 @@ export async function POST(request: Request) {
         success: true,
         userId: result.insertedId,
         user: {
-          phone,
+          phoneNumber,
           surname,
-          firstName,
+          name,
           email,
         },
       },

@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { AuthFormLayout } from '../../_components/AuthFormLayout';
 
 const initialFormData = {
-  phone: '+7',
+  phoneNumber: '+7',
   password: '',
 };
 function LoginPage() {
@@ -42,7 +42,7 @@ function LoginPage() {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
-          phone: formData.phone.replace(/\D/g, ''),
+          phoneNumber: formData.phoneNumber.replace(/\D/g, ''),
           password: formData.password,
         }),
       });
@@ -88,9 +88,9 @@ function LoginPage() {
         <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
           <div className="flex flex-col items-start gap-y-4">
             <PhoneInput
-              id="phone"
+              id="phoneNumber"
               label="Телефон"
-              value={formData.phone}
+              value={formData.phoneNumber}
               onChangeAction={handleChange}
             />
 
@@ -109,10 +109,10 @@ function LoginPage() {
         <button
           type="submit"
           disabled={
-            !(formData.phone && formData.password) || isLoading
+            !(formData.phoneNumber && formData.password) || isLoading
           }
           className={`${buttonStyles.base} ${
-            formData.phone && formData.password
+            formData.phoneNumber && formData.password
               ? buttonStyles.active
               : buttonStyles.inactive
           }`}

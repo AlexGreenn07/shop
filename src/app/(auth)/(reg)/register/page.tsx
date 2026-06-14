@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PhoneInput from '../../_components/PhoneInput';
 import PersonInput from '../_components/PersonInput';
 import PasswordInput from '../../_components/PasswordInput';
@@ -14,10 +14,12 @@ import RegFormFooter from '../_components/RegFormFooter';
 import { validateRegisterForm } from '@/utils/validation/form';
 import { Loader } from '@/components/Loader';
 import ErrorComponent from '@/components/ErrorComponent';
-import SuccessModal from '../_components/SuccessModal';
 import { initialRegFormData } from '@/constants/regFormData';
 import { RegFormData } from '@/types/regFormData';
 import { AuthFormLayout } from '../../_components/AuthFormLayout';
+import { useRegFormContext } from '@/app/contexts/RegFormContext';
+import { useRouter } from 'next/navigation';
+import VerificationMethodModal from '../_components/VerificationMethodModal';
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,14 @@ function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const { setRegFormData } = useRegFormContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSuccess && !registerForm.email) {
+      router.replace('/verify/verify-phone');
+    }
+  }, [isSuccess, registerForm.email, router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -67,19 +77,11 @@ function RegisterPage() {
       );
       const userData = {
         ...registerForm,
-        phone: registerForm.phone.replace(/\D/g, ''),
-        birthdayDate: formattedBirthdayDate,
+        phoneNumber: registerForm.phoneNumber.replace(/\D/g, ''),
+        birthdayDate: formattedBirthdayDate.toISOString(),
       };
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Ошибка регистрации');
-      }
+      setRegFormData(userData);
 
       setIsSuccess(true);
     } catch (error) {
@@ -107,7 +109,8 @@ function RegisterPage() {
       />
     );
 
-  if (isSuccess) return <SuccessModal />;
+  if (isSuccess && registerForm.email)
+    return <VerificationMethodModal />;
 
   return (
     <AuthFormLayout variant="register">
@@ -126,9 +129,9 @@ function RegisterPage() {
         <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
           <div className="flex flex-col items-start gap-y-4">
             <PhoneInput
-              id="phone"
+              id="phoneNumber"
               label="Телефон"
-              value={registerForm.phone}
+              value={registerForm.phoneNumber}
               onChangeAction={handleChange}
             />
             <PersonInput
@@ -138,9 +141,9 @@ function RegisterPage() {
               onChangeAction={handleChange}
             />
             <PersonInput
-              id="firstName"
+              id="name"
               label="Имя"
-              value={registerForm.firstName}
+              value={registerForm.name}
               onChangeAction={handleChange}
             />
             <PasswordInput
