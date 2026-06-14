@@ -4,11 +4,11 @@ import ErrorComponent from '@/components/ErrorComponent';
 import { Loader } from '@/components/Loader';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Image from 'next/image';
-import PhoneInput from '../../PhoneInput';
-import PasswordInput from '../../PasswordInput';
+import PhoneInput from '../../_components/PhoneInput';
+import PasswordInput from '../../_components/PasswordInput';
 import { buttonStyles, formStyles } from '../../styles';
 import Link from 'next/link';
+import { AuthFormLayout } from '../../_components/AuthFormLayout';
 
 const initialFormData = {
   phone: '+7',
@@ -23,11 +23,6 @@ function LoginPage() {
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-
-  const handleClose = () => {
-    setFormData(initialFormData);
-    router.back();
-  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -82,77 +77,61 @@ function LoginPage() {
     );
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] text-[#414141]">
-      <div className="m-4 max-h-[90vh] w-full max-w-[420px] overflow-y-auto rounded bg-white shadow-(--shadow-auth-form)">
-        <div className="flex justify-end">
-          <button
-            onClick={handleClose}
-            className="m-2 cursor-pointer rounded bg-[#f3f2f1] p-1 duration-300"
-            aria-label="Закрыть"
-          >
-            <Image
-              src="/icons-auth/icon-closer.svg"
-              alt="Закрыть окно аутентификации"
-              width={24}
-              height={24}
+    <AuthFormLayout>
+      <h1 className="mb-10 text-center text-2xl font-bold">Вход</h1>
+      <form
+        action=""
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        className="mx-auto flex w-full max-w-138 flex-col justify-center overflow-y-auto"
+      >
+        <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+          <div className="flex flex-col items-start gap-y-4">
+            <PhoneInput
+              id="phone"
+              label="Телефон"
+              value={formData.phone}
+              onChangeAction={handleChange}
             />
-          </button>
-        </div>
-        <h1 className="mb-10 text-center text-2xl font-bold">Вход</h1>
-        <form
-          action=""
-          onSubmit={handleSubmit}
-          autoComplete="off"
-          className="mx-auto flex w-full max-w-138 flex-col justify-center overflow-y-auto"
-        >
-          <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
-            <div className="flex flex-col items-start gap-y-4">
-              <PhoneInput
-                id="phone"
-                label="Телефон"
-                value={formData.phone}
-                onChangeAction={handleChange}
-              />
 
-              <PasswordInput
-                id="password"
-                label="Пароль"
-                value={formData.password}
-                onChangeAction={handleChange}
-                showPassword={showPassword}
-                togglePasswordVisibilityAction={() =>
-                  setShowPassword((prev) => !prev)
-                }
-              />
-            </div>
+            <PasswordInput
+              id="password"
+              label="Пароль"
+              value={formData.password}
+              onChangeAction={handleChange}
+              showPassword={showPassword}
+              togglePasswordVisibilityAction={() =>
+                setShowPassword((prev) => !prev)
+              }
+            />
           </div>
-          <button
-            type="submit"
-            disabled={
-              !(formData.phone && formData.password) || isLoading
-            }
-            className={`${buttonStyles.base} ${
-              formData.phone && formData.password
-                ? buttonStyles.active
-                : buttonStyles.inactive
-            }`}
+        </div>
+        <button
+          type="submit"
+          disabled={
+            !(formData.phone && formData.password) || isLoading
+          }
+          className={`${buttonStyles.base} ${
+            formData.phone && formData.password
+              ? buttonStyles.active
+              : buttonStyles.inactive
+          }`}
+        >
+          Вход
+        </button>
+        <div className="mx-auto mb-10 flex flex-row flex-wrap text-xs">
+          <Link href="/register" className={formStyles.loginLink}>
+            Регистрация
+          </Link>
+          <Link
+            href="/forgotPassword"
+            className="flex h-8 w-30 items-center justify-center text-[#414141] duration-300 hover:text-black"
           >
-            Вход
-          </button>
-          <div className="mx-auto mb-10 flex flex-row flex-wrap text-xs">
-            <Link href="/register" className={formStyles.loginLink}>
-              Регистрация
-            </Link>
-            <Link
-              href="/forgotPassword"
-              className="flex h-8 w-30 items-center justify-center text-[#414141] duration-300 hover:text-black"
-            >
-              Забыли пароль?
-            </Link>
-          </div>
-        </form>
-      </div>
-    </div>
+            Забыли пароль?
+          </Link>
+        </div>
+      </form>
+    </AuthFormLayout>
   );
 }
 export default LoginPage;

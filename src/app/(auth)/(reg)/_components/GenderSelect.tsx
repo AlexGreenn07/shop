@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import { formStyles } from '../styles';
+import { formStyles } from '../../styles';
 
 interface GenderSelectProps {
   label: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import { ChangeEvent } from 'react';
-import { formStyles } from '../styles';
+import { formStyles } from '../../styles';
 import { regions } from '@/data/regions';
 import Image from 'next/image';
 

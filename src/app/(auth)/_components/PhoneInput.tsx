@@ -4,38 +4,41 @@ import { ChangeEvent } from 'react';
 import { formStyles } from '../styles';
 import { InputMask } from '@react-input/mask';
 
-interface CardInputProps {
+interface PhoneInputProps {
   id: string;
   label: string;
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
-  disabled: boolean;
 }
-function CardInput({
+function PhoneInput({
   id,
   label,
   value,
   onChangeAction,
-  disabled,
-}: CardInputProps) {
+}: PhoneInputProps) {
   return (
-    <div className="mb-4 flex flex-col">
+    <div>
       <label htmlFor={id} className={formStyles.label}>
         {label}
       </label>
       <InputMask
-        mask="____ ____ ____ ____"
+        mask="+7 (___) ___-__-__"
         replacement={{ _: /\d/ }}
         id={id}
         type="text"
         value={value}
-        placeholder={disabled ? '' : '0000 0000 0000 0000'}
+        placeholder="+7 (___) ___-__-__"
         onChange={onChangeAction}
-        disabled={disabled}
-        className={`${formStyles.input} ${disabled ? 'cursor-not-allowed bg-[#f3f2f1]' : ''}`}
+        className={formStyles.input}
+        showMask={true}
+        onFocus={(e) => {
+          if (e.target.value === '+7') {
+            e.target.setSelectionRange(2, 2);
+          }
+        }}
       />
     </div>
   );
 }
 
-export default CardInput;
+export default PhoneInput;

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 interface CheckboxCardProps {
   id: string;
-  checked: boolean;
+  checked: boolean | undefined;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
