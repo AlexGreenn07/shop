@@ -12,6 +12,7 @@
     "@faker-js/faker": "^10.4.0",
     "@iminside/react-yandex-maps": "^1.2.7",
     "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.9",
     "@react-input/mask": "^2.0.4",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.6.18",

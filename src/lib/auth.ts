@@ -16,12 +16,17 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      void resend.emails.send({
-        from: 'Северяночка <onboarding@resend.dev>',
-        to: user.email,
-        subject: 'Подтверждение регистрации на сайте Северяночка',
-        react: VerifyEmail({ username: user.name, verifyUrl: url }),
-      });
+      try {
+        await resend.emails.send({
+          from: 'Северяночка <onboarding@resend.dev>',
+          to: user.email,
+          subject: 'Подтверждение регистрации на сайте Северяночка',
+          react: VerifyEmail({ username: user.name, verifyUrl: url }),
+        });
+      } catch (error) {
+        console.error('Ошибка отправки email через Resend:', error);
+        throw new Error('Failed to send verification email');
+      }
     },
     expiresIn: 86400,
     autoSignInAfterVerification: false,
