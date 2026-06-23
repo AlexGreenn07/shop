@@ -1,6 +1,7 @@
 import VerifyEmail from '@/app/(auth)/(reg)/_components/VerifyEmail';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
+import { phoneNumber } from 'better-auth/plugins';
 import { MongoClient } from 'mongodb';
 import { Resend } from 'resend';
 
@@ -31,6 +32,43 @@ export const auth = betterAuth({
     expiresIn: 86400,
     autoSignInAfterVerification: false,
   },
+  plugins: [
+    phoneNumber({
+      sendOTP: async ({ phoneNumber, code }) => {
+        console.log(
+          `[DEBUG]Отправка OTP ${code} на номер ${phoneNumber}`
+        );
+        //     try {
+        //       const response = await fetch(
+        //         `https://smspilot.ru/api.php?send=Ваш код подтверждения от "Северяночки": ${code}&to=${phoneNumber}&apikey=${process.env.SMS_SMSPILOT_TEST_API_ID}&format=json`
+        //       );
+        //       const result = await response.json();
+        //       if (
+        //         result.status !== '1' &&
+        //         result.status !== '2' &&
+        //         result.status !== '0'
+        //       ) {
+        //         throw new Error('Ошибка отправки СМС', result.status);
+        //       }
+        //     } catch (error) {
+        //       console.error('Ошибка отправки СМС:', error);
+        //       throw error;
+        //     }
+      },
+      signUpOnVerification: {
+        getTempEmail: (phoneNumber) => {
+          return `${phoneNumber}@delivery-shop.ru`;
+        },
+        getTempName: (phoneNumber) => {
+          return phoneNumber;
+        },
+      },
+      allowedAttempts: 3,
+      otpLength: 6,
+      expiresIn: 300,
+      requireVerification: true,
+    }),
+  ],
   user: {
     additionalFields: {
       phoneNumber: { type: 'string', input: true, required: true },
