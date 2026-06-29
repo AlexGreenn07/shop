@@ -79,7 +79,7 @@ export default function VerifyEmailPage() {
   return (
     <AuthFormLayout>
       {isLoading ? (
-        <LoadingContent title="письма" />
+        <LoadingContent title="Отправка письма..." />
       ) : error ? (
         <ErrorContent
           error={error}
@@ -90,7 +90,9 @@ export default function VerifyEmailPage() {
             onClick: handleResend,
           }}
         />
-      ) : verificationSent ? (<SuccessSent/>) : null}
+      ) : verificationSent ? (
+        <SuccessSent />
+      ) : null}
     </AuthFormLayout>
   );
 }

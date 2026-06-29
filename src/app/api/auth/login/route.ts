@@ -6,25 +6,19 @@ import bcrypt from 'bcrypt';
 // export const revalidate = 3600;
 export async function POST(request: Request) {
   try {
-    const {
-      phoneNumber,
-
-      password,
-    } = await request.json();
+    const { phoneNumber, password } = await request.json();
 
     const db = await getDB();
     if (!phoneNumber || !password) {
       return NextResponse.json(
-        { error: 'Заполните все поля' },
+        { message: 'Заполните все поля' },
         { status: 400 }
       );
     }
-    const user = await db
-      .collection('users')
-      .findOne({ phoneNumber });
+    const user = await db.collection('user').findOne({ phoneNumber });
     if (!user) {
       return NextResponse.json(
-        { error: 'Пользователя с таким телефоном не существует' },
+        { message: 'Пользователя с таким телефоном не существует' },
         { status: 401 }
       );
     }
@@ -37,7 +31,7 @@ export async function POST(request: Request) {
 
     if (!isPasswordValid) {
       return NextResponse.json(
-        { error: 'Неверный пароль' },
+        { message: 'Неверный пароль' },
         { status: 401 }
       );
     }

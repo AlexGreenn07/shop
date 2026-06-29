@@ -8,7 +8,8 @@ export async function POST(request: Request) {
     const user = await db
       .collection('users')
       .findOne({ phoneNumber });
-    return NextResponse.json({ exists: !!user });
+    if (!user) return NextResponse.json({ exists: false });
+    return NextResponse.json({ exists: true, userName: user.name });
   } catch (error) {
     console.error('Ошибка при проверке номера телефона:', error);
     return NextResponse.json({ exists: false }, { status: 500 });

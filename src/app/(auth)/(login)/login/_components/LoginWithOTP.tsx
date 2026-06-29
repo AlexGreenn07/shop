@@ -1,26 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { buttonStyles } from '../styles';
-import { CONFIG } from '../../../../config/config';
-import { useRegFormContext } from '@/app/contexts/RegFormContext';
-import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CONFIG } from '../../../../../../config/config';
+import useTimer from '@/hooks/useTimer';
+import { authClient } from '@/lib/auth-client';
+import { buttonStyles } from '../../../styles';
 import Link from 'next/link';
 import Image from 'next/image';
-import useTimer from '@/hooks/useTimer';
+import { AuthFormLayout } from '../../../_components/AuthFormLayout';
+import { LoadingContent } from '@/app/(auth)/(reg)/_components/LoadingContent';
+import { useAuthStore } from '@/store/authStore';
+import OTPResendButton from '@/app/(auth)/_components/OTPResendButton';
 
-function EnterCode({ phoneNumber }: { phoneNumber: string }) {
+function LoginWithOTP({ phoneNumber }: { phoneNumber: string }) {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [attemptsLeft, setAttemptsLeft] = useState(
     CONFIG.MAX_AUTH_ATTEMPTS
   );
   const router = useRouter();
-  const { regFormData } = useRegFormContext();
   const { timeLeft, canResend, startTimer } = useTimer(
     CONFIG.TIMEOUT_SENDING_CODE_PERIOD
   );
+  const { login } = useAuthStore();
 
   useEffect(() => {
     startTimer();
@@ -30,45 +34,31 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length !== 6) return;
+    setIsLoading(true);
     try {
-      const {
-        phoneNumber,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        password,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        confirmPassword,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        email,
-        ...dataForVerify
-      } = regFormData;
-      const { data: verifyData, error: verifyError } =
+      const { error: verifyError } =
         await authClient.phoneNumber.verify({
           phoneNumber,
           code,
           disableSession: false,
-          ...dataForVerify,
         });
       if (verifyError) throw verifyError;
       setAttemptsLeft(CONFIG.MAX_AUTH_ATTEMPTS);
-
-      const passwordResponse = await fetch('/api/auth/set-password', {
+      const response = await fetch('/api/auth/check-phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: verifyData.user.id,
-          password: regFormData.password,
+          phoneNumber,
         }),
       });
 
-      if (!passwordResponse.ok) {
-        const errorData = await passwordResponse.json();
-        console.error('Детали ошибки', errorData);
-        throw new Error(errorData.error || 'Ошибка установки пароля');
+      if (!response.ok) {
+        throw new Error('Данные пользователя не получены');
       }
-      const { error: updateError } =
-        await authClient.updateUser(dataForVerify);
-      if (updateError) throw updateError;
-      router.replace('/login');
+      const userData = await response.json();
+      login(userData.userName);
+
+      router.replace('/');
     } catch (error) {
       console.error('Ошибка верификации телефона', error);
       setCode('');
@@ -84,6 +74,8 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
           `Неверный код. Осталось попыток: ${attemptsLeft - 1}`
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -113,11 +105,18 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
       setError('Неизвестная ошибка при отправке СМС');
     }
   };
+  if (isLoading) {
+    return (
+      <AuthFormLayout>
+        <LoadingContent title={'Проверяем код...'} />
+      </AuthFormLayout>
+    );
+  }
   return (
-    <>
+    <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
         <h1 className="text-center text-2xl font-bold text-[#414141]">
-          Регистрация
+          Вход
         </h1>
         <div>
           <p className="text-center text-[#8f8f8f]">Код из СМС</p>
@@ -155,22 +154,13 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
             </button>
           </form>
         </div>
-        {!canResend ? (
-          <p className="text-center text-xs text-[#414141]">
-            Код подтверждения можно будет повторно запросить через{' '}
-            <span className="font-bold">{timeLeft}</span> секунд
-          </p>
-        ) : (
-          <button
-            onClick={handleResend}
-            disabled={!canResend}
-            className={`cursor-pointer text-center text-xs underline ${canResend ? 'text-[#ff6633]' : 'cursor-not-allowed text-gray-400'}`}
-          >
-            Отправить код подтверждения повторно
-          </button>
-        )}
+        <OTPResendButton
+          canResend={canResend}
+          timeLeft={timeLeft}
+          onResendAction={handleResend}
+        />
         <Link
-          href="/register"
+          href="/login"
           className="mx-auto flex h-8 w-30 cursor-pointer items-center justify-center gap-x-2 text-xs text-[#414141] duration-300 hover:text-black"
         >
           <Image
@@ -182,8 +172,8 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
           Вернуться
         </Link>
       </div>
-    </>
+    </AuthFormLayout>
   );
 }
 
-export default EnterCode;
+export default LoginWithOTP;

@@ -1,130 +1,243 @@
 'use client';
 
-import ErrorComponent from '@/components/ErrorComponent';
-import { Loader } from '@/components/Loader';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import PhoneInput from '../../_components/PhoneInput';
-import PasswordInput from '../../_components/PasswordInput';
+import { AuthFormLayout } from '../../_components/AuthFormLayout';
+import { InputMask } from '@react-input/mask';
 import { buttonStyles, formStyles } from '../../styles';
 import Link from 'next/link';
-import { AuthFormLayout } from '../../_components/AuthFormLayout';
+import { useRouter } from 'next/navigation';
+import { LoadingContent } from '../../(reg)/_components/LoadingContent';
+import { ErrorContent } from '../../(reg)/_components/ErrorContent';
+import { MailWarning, PhoneOff } from 'lucide-react';
+import { UnverifiedEmail } from './_components/UnverifiedEmail';
+import { AuthMethodSelector } from './_components/AuthMethodSelector';
 
-const initialFormData = {
-  phoneNumber: '+7',
-  password: '',
-};
-function LoginPage() {
+function EnterLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<{
-    error: Error;
-    userMessage: string;
-  } | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
-  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [login, setLogin] = useState('');
+  const [showUnverifiedEmail, setShowUnverifiedEmail] =
+    useState(false);
+  const [showAuthMethodChoice, setShowAuthMethodChoice] =
+    useState(false);
+  const [loginType, setLoginType] = useState<'email' | 'phone'>(
+    'email'
+  );
   const router = useRouter();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  const switchToPhone = () => {
+    setLogin('');
+    setLoginType('phone');
+  };
+  const switchToEmail = () => {
+    setLogin('');
+    setLoginType('email');
+  };
+  const handleLoginChange = (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { id, value } = e.target;
-
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    const value = e.target.value;
+    setLogin(value);
+    setError(null);
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
     try {
-      const res = await fetch('/api/login', {
+      const response = await fetch('/api/auth/check-login', {
         method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          phoneNumber: formData.phoneNumber.replace(/\D/g, ''),
-          password: formData.password,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login, loginType }),
       });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Ошибка авторизации');
+      const { exist, verified } = await response.json();
+      if (!exist) {
+        setError(
+          loginType === 'email'
+            ? 'Аккаунт с таким email не существует'
+            : 'Аккаунт с таким телефоном не существует'
+        );
+        return;
       }
-      router.replace('/');
-    } catch (error) {
-      setError({
-        error:
-          error instanceof Error
-            ? error
-            : new Error('Неизвестная ошибка'),
-        userMessage:
-          (error instanceof Error && error.message) ||
-          'Ошибка авторизации. Попробуйте снова',
-      });
+      if (!verified && loginType === 'email') {
+        setShowUnverifiedEmail(true);
+        return;
+      }
+      if (!verified && loginType === 'phone') {
+        setError('Телефон не подтвержден, зайдите по email');
+        return;
+      }
+
+      if (loginType === 'phone') {
+        setShowAuthMethodChoice(true);
+      } else {
+        router.push(
+          `/password-enter?login=${encodeURIComponent(login)}&loginType=${loginType}`
+        );
+      }
+    } catch {
+      setError('Ошибка при проверке данных');
     } finally {
       setIsLoading(false);
     }
   };
-
-  if (isLoading) return <Loader />;
-  if (error)
+  const handleToRegister = () => router.replace('/register');
+  const handleBackFromMethodChoice = () => {
+    setLogin('');
+    setLoginType('phone');
+    setShowAuthMethodChoice(false);
+  };
+  const handleAuthMethodSelect = (method: 'password' | 'otp') => {
+    const cleanLogin = login.replace(/\D/g, '');
+    router.push(
+      method === 'password'
+        ? `/password-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+        : `/otp-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+    );
+  };
+  if (isLoading) {
     return (
-      <ErrorComponent
-        error={error.error}
-        userMessage={error.userMessage}
+      <AuthFormLayout>
+        <LoadingContent
+          title={
+            <span>
+              {`Проверка ${loginType === 'email' ? 'email' : 'телефона'}`}
+              <br />
+              {login}
+            </span>
+          }
+        />
+      </AuthFormLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AuthFormLayout>
+        <ErrorContent
+          error={error}
+          icon={
+            loginType === 'email' ? (
+              <MailWarning className="h-8 w-8 text-red-600" />
+            ) : (
+              <PhoneOff className="h-8 w-8 text-red-600" />
+            )
+          }
+          title="Упс!"
+          secondaryAction={{
+            label: 'Регистрация',
+            onClick: handleToRegister,
+          }}
+        />
+      </AuthFormLayout>
+    );
+  }
+  if (showUnverifiedEmail) {
+    return (
+      <UnverifiedEmail
+        email={login}
+        setLoginAction={setLogin}
+        setShowUnverifiedEmailAction={setShowUnverifiedEmail}
       />
     );
+  }
+  if (showAuthMethodChoice) {
+    return (
+      <AuthMethodSelector
+        phoneNumber={login}
+        onBackAction={handleBackFromMethodChoice}
+        onMethodSelectAction={handleAuthMethodSelect}
+      />
+    );
+  }
 
   return (
     <AuthFormLayout>
-      <h1 className="mb-10 text-center text-2xl font-bold">Вход</h1>
+      <h1 className="mb-8 text-center text-2xl font-bold text-[#414141]">
+        Вход
+      </h1>
       <form
         action=""
         onSubmit={handleSubmit}
         autoComplete="off"
-        className="mx-auto flex w-full max-w-138 flex-col justify-center overflow-y-auto"
+        className="mx-auto flex max-h-screen w-65 flex-col justify-center gap-y-8 overflow-y-auto"
       >
-        <div className="flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
-          <div className="flex flex-col items-start gap-y-4">
-            <PhoneInput
-              id="phoneNumber"
-              label="Телефон"
-              value={formData.phoneNumber}
-              onChangeAction={handleChange}
-            />
-
-            <PasswordInput
-              id="password"
-              label="Пароль"
-              value={formData.password}
-              onChangeAction={handleChange}
-              showPassword={showPassword}
-              togglePasswordVisibilityAction={() =>
-                setShowPassword((prev) => !prev)
-              }
-            />
+        <div className="relative flex w-full flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+          <div className="flex w-full flex-col items-start gap-y-4">
+            <div>
+              <label htmlFor="login" className={formStyles.label}>
+                {loginType === 'email' ? 'Email' : 'Телефон'}
+              </label>
+              {loginType === 'phone' ? (
+                <InputMask
+                  mask="+7 (___) ___-__-__"
+                  replacement={{ _: /\d/ }}
+                  value={login}
+                  placeholder="+7 (___) ___-__-__"
+                  onChange={handleLoginChange}
+                  className={formStyles.input}
+                  required
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={login}
+                  placeholder="example@mail.com"
+                  onChange={handleLoginChange}
+                  className={formStyles.input}
+                  required
+                />
+              )}
+            </div>
+            <div className="mx-auto flex gap-2 text-sm">
+              <button
+                type="button"
+                onClick={switchToEmail}
+                className={`cursor-pointer rounded px-2 py-1 ${loginType === 'email' ? 'bg-[#ff6633] text-white' : 'bg-gray-100'} `}
+              >
+                По email
+              </button>
+              <button
+                type="button"
+                onClick={switchToPhone}
+                className={`cursor-pointer rounded px-2 py-1 ${loginType === 'phone' ? 'bg-[#ff6633] text-white' : 'bg-gray-100'} `}
+              >
+                По телефону
+              </button>
+            </div>
           </div>
         </div>
         <button
           type="submit"
           disabled={
-            !(formData.phoneNumber && formData.password) || isLoading
+            (loginType === 'email' &&
+              (!login.includes('@') || !login.includes('.'))) ||
+            (loginType === 'phone' &&
+              login.replace(/\D/g, '').length < 11) ||
+            isLoading
           }
-          className={`${buttonStyles.base} ${
-            formData.phoneNumber && formData.password
-              ? buttonStyles.active
-              : buttonStyles.inactive
-          }`}
+          className={` ${buttonStyles.base} [&&]:my-0 ${
+            (loginType === 'email' &&
+              (!login.includes('@') || !login.includes('.'))) ||
+            (loginType === 'phone' &&
+              login.replace(/\D/g, '').length < 11) ||
+            isLoading
+              ? 'cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]'
+              : 'bg-[#ff6633] text-white hover:shadow-(--shadow-article)'
+          } duration-300 active:shadow-(--shadow-button-active)`}
         >
           Вход
         </button>
-        <div className="mx-auto mb-10 flex flex-row flex-wrap text-xs">
-          <Link href="/register" className={formStyles.loginLink}>
+        <div className="mx-auto flex flex-row flex-wrap justify-center gap-4 text-xs">
+          <Link
+            href="/register"
+            className={`${formStyles.loginLink} w-auto px-2`}
+          >
             Регистрация
           </Link>
           <Link
-            href="/forgotPassword"
+            href="/forgot-password"
             className="flex h-8 w-30 items-center justify-center text-[#414141] duration-300 hover:text-black"
           >
             Забыли пароль?
@@ -134,4 +247,4 @@ function LoginPage() {
     </AuthFormLayout>
   );
 }
-export default LoginPage;
+export default EnterLoginPage;

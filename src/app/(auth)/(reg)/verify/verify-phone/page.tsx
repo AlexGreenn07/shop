@@ -8,7 +8,7 @@ import { LoadingContent } from '../../_components/LoadingContent';
 import { ErrorContent } from '../../_components/ErrorContent';
 import { PhoneOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import EnterCode from '@/app/(auth)/_components/EnterCode';
+import EnterCode from '@/app/(auth)/(reg)/_components/EnterCode';
 
 export default function VerifyPhonePage() {
   const { regFormData } = useRegFormContext();
@@ -97,7 +97,7 @@ export default function VerifyPhonePage() {
   return (
     <AuthFormLayout>
       {isLoading ? (
-        <LoadingContent title="СМС..." />
+        <LoadingContent title="Отправка СМС..." />
       ) : error ? (
         <ErrorContent
           error={error}
