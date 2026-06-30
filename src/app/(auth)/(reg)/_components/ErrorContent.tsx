@@ -13,7 +13,7 @@ type ErrorContentProps = {
     className?: string;
   };
   secondaryAction?: {
-    label: string;
+    label: string | React.ReactNode;
     onClick: () => void;
     className?: string;
   };
@@ -51,7 +51,7 @@ export const ErrorContent = ({
         {secondaryAction && (
           <button
             onClick={secondaryAction.onClick}
-            className={`flex w-full cursor-pointer items-center justify-center space-x-2 rounded border border-gray-300 px-4 py-3 text-gray-700 duration-300 hover:bg-gray-50 ${secondaryAction.className}`}
+            className={`flex w-full cursor-pointer items-center justify-center gap-6 rounded border border-gray-300 px-4 py-3 text-gray-700 duration-300 hover:bg-gray-200 ${secondaryAction.className}`}
           >
             <RotateCw className="h-4 w-4" />
             <span>{secondaryAction.label}</span>

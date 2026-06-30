@@ -1,4 +1,5 @@
 import VerifyEmail from '@/app/(auth)/(reg)/_components/VerifyEmail';
+import PasswordResetEmail from '@/app/(auth)/(update-pass)/_components/PasswordResetEmail';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { phoneNumber } from 'better-auth/plugins';
@@ -14,6 +15,23 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    resetPasswordTokenExpiresIn: 86400, // 1 day
+    sendResetPassword: async ({ user, url }) => {
+      try {
+        await resend.emails.send({
+          from: 'Северяночка <onboarding@resend.dev>',
+          to: user.email,
+          subject: 'Сброс пароля на сайте Северяночка',
+          react: PasswordResetEmail({
+            username: user.name,
+            resetUrl: url,
+          }),
+        });
+      } catch (error) {
+        console.error('Ошибка отправки email через Resend:', error);
+        throw new Error('Failed to send reset password email');
+      }
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
@@ -34,6 +52,11 @@ export const auth = betterAuth({
   },
   plugins: [
     phoneNumber({
+      sendPasswordResetOTP: async ({ phoneNumber, code }) => {
+        console.log(
+          `[DEBUG]Отправка OTP ${code} на номер ${phoneNumber}`
+        );
+      },
       sendOTP: async ({ phoneNumber, code }) => {
         console.log(
           `[DEBUG]Отправка OTP ${code} на номер ${phoneNumber}`
