@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const db = await getDB();
 
     const existingUser = await db
-      .collection('users')
+      .collection('user')
       .findOne({ phoneNumber });
     if (existingUser) {
       return NextResponse.json(
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const result = await db.collection('users').insertOne({
+    const result = await db.collection('user').insertOne({
       phoneNumber,
       surname,
       name,

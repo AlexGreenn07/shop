@@ -21,6 +21,7 @@ export async function GET(request: Request) {
     );
 
     const user = await db.collection('users').findOne({});
+    console.log(user);
     if (!user?.purchases?.length) {
       return NextResponse.json({ products: [], totalCount: 0 });
     }
@@ -28,6 +29,7 @@ export async function GET(request: Request) {
     const productIds = user.purchases.map(
       (p: { id: number }) => p.id
     );
+    console.log(productIds);
 
     if (userPurchasesLimit) {
       const limit = parseInt(userPurchasesLimit);

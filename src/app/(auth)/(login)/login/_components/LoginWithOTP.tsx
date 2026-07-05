@@ -55,8 +55,7 @@ function LoginWithOTP({ phoneNumber }: { phoneNumber: string }) {
       if (!response.ok) {
         throw new Error('Данные пользователя не получены');
       }
-      const userData = await response.json();
-      login(userData.userName);
+      login();
 
       router.replace('/');
     } catch (error) {

@@ -78,8 +78,7 @@ function EnterPasswordContent() {
           throw new Error(data.message || 'Ошибка при входе');
         }
 
-        const userName = data.user?.name;
-        login(userName);
+        login();
         router.replace('/');
       } else {
         await authClient.signIn.email(
@@ -88,9 +87,8 @@ function EnterPasswordContent() {
             password,
           },
           {
-            onSuccess: (ctx) => {
-              const userName = ctx.data?.user.name || 'Пользователь';
-              login(userName);
+            onSuccess: () => {
+              login();
               router.replace('/');
             },
             onError: (ctx) => {

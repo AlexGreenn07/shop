@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import useTimer from '@/hooks/useTimer';
-import { AuthFormLayout } from '../../_components/AuthFormLayout';
 import { LoadingContent } from './LoadingContent';
 import OTPResendButton from '../../_components/OTPResendButton';
 
@@ -121,11 +120,7 @@ function EnterCode({ phoneNumber }: { phoneNumber: string }) {
     }
   };
   if (isLoading) {
-    return (
-      <AuthFormLayout>
-        <LoadingContent title={'Проверяем код...'} />
-      </AuthFormLayout>
-    );
+    return <LoadingContent title={'Проверяем код...'} />;
   }
   return (
     <>
