@@ -21,7 +21,6 @@ export async function GET(request: Request) {
     );
 
     const user = await db.collection('users').findOne({});
-    console.log(user);
     if (!user?.purchases?.length) {
       return NextResponse.json({ products: [], totalCount: 0 });
     }

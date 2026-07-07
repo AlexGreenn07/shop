@@ -4,6 +4,17 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   devIndicators: false,
+  images: {
+    localPatterns: [
+      {
+        pathname: '/api/auth/avatar/**', // Разрешает любые пути, начинающиеся с этого префикса
+        // Свойство search намеренно опущено, чтобы разрешить любые query-параметры (?t=...)
+      },
+      {
+        pathname: '/**', // Разрешает абсолютно любые локальные пути на вашем сервере
+      },
+    ],
+  },
   // experimental: {
   //   allowedDevOrigins: ['192.168.1.46'],
   // },

@@ -14,8 +14,22 @@ const Profile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState<string>('');
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setLastUpdate(Date.now());
+  }, [user]);
+
+  useEffect(() => {
+    if (user?.id) {
+      setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
+    } else if (user?.gender) {
+      setAvatarSrc(getAvatarByGender(user.gender));
+    }
+  }, [user, lastUpdate]);
 
   useEffect(() => {
     checkAuth();
@@ -58,6 +72,12 @@ const Profile = () => {
     }
   };
 
+  const handleAvatarError = () => {
+    if (user?.gender) {
+      setAvatarSrc(getAvatarByGender(user.gender));
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="ml-6 h-10 w-10 animate-pulse rounded-full bg-gray-200"></div>
@@ -90,10 +110,11 @@ const Profile = () => {
         onClick={toggleMenu}
       >
         <Image
-          src={getAvatarByGender(user?.gender)}
+          src={avatarSrc || getAvatarByGender(user?.gender)}
           alt="Ваш профиль"
           width={40}
           height={40}
+          onError={handleAvatarError}
           className="min-h-10 min-w-10 rounded-full object-cover md:block xl:block"
         />
         <p className="hidden cursor-pointer p-2.5 xl:block">
@@ -103,8 +124,6 @@ const Profile = () => {
           <Image
             src={iconArrow}
             alt="Меню профиля"
-            width={24}
-            height={24}
             sizes="24px"
             className={`transform transition-transform duration-300 ${
               isMenuOpen ? 'rotate-180' : 'rotate-0'
