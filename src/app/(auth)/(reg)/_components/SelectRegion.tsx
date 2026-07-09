@@ -11,12 +11,16 @@ interface SelectRegionProps {
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLSelectElement>) => void;
   region?: Array<{ value: string; label: string }>;
+  className?: string;
+  disabled?: boolean;
 }
 const SelectRegion = ({
   id,
   label,
   value,
   onChangeAction,
+  className,
+  disabled,
 }: SelectRegionProps) => {
   return (
     <div>
@@ -26,24 +30,30 @@ const SelectRegion = ({
       <div className="relative flex w-full items-center">
         <select
           id={id}
+          name="region"
           value={value}
+          disabled={disabled}
           onChange={onChangeAction}
-          className={`${formStyles.input} cursor-pointer appearance-none pr-8`}
+          className={`${formStyles.input} ${className} cursor-pointer appearance-none pr-8 disabled:cursor-not-allowed disabled:bg-[#f3f2f1]`}
         >
           {regions.map((region) => (
-            <option key={region.value}>{region.label}</option>
+            <option key={region.value} value={region.label}>
+              {region.label}
+            </option>
           ))}
         </select>
 
-        <div className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
-          <Image
-            src="/icons-products/icon-arrow-right.svg"
-            alt="Выберите регион"
-            width={24}
-            height={24}
-            className="rotate-90"
-          />
-        </div>
+        {!disabled && (
+          <div className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
+            <Image
+              src="/icons-products/icon-arrow-right.svg"
+              alt="Выберите населенный пункт"
+              width={24}
+              height={24}
+              className="rotate-90"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

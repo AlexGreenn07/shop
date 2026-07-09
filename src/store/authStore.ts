@@ -38,30 +38,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   checkAuth: async () => {
     try {
       set({ isLoading: true });
-      const response = await fetch('/api/auth/check-session');
+      const response = await fetch('/api/auth/check-session', {
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         set({ isAuth: false, user: null, isLoading: false });
         return false;
       }
+
       const data = await response.json();
+
       if (data.isAuth) {
         set({ isAuth: true });
         await get().fetchUserData();
       } else {
         set({ isAuth: false, user: null, isLoading: false });
       }
+
       return data.isAuth;
     } catch {
       set({ isAuth: false, user: null, isLoading: false });
-
       return false;
     }
   },
+
   fetchUserData: async () => {
     try {
       set({ isLoading: true });
-      const response = await fetch('/api/auth/user');
+      const response = await fetch('/api/auth/user', {
+        credentials: 'include',
+      });
 
       if (response.status === 401 || response.status === 403) {
         throw new Error('Unauthorized');
@@ -70,10 +77,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (!response.ok) {
         throw new Error('Ошибка получения данных');
       }
+
       const userData = await response.json();
+
       set({ user: userData, isLoading: false });
     } catch (error) {
-      console.error('Ошибка загрузки данных пользователя', error);
+      console.error('Ошибка загрузки данных пользователя:', error);
       set({ user: null, isLoading: false });
 
       if (
@@ -84,6 +93,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
     }
   },
+
   logout: async () => {
     try {
       await authClient.signOut();
@@ -93,7 +103,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         credentials: 'include',
       });
     } finally {
-      set({ user: null, isLoading: false });
+      set({ isAuth: false, user: null });
     }
   },
 }));

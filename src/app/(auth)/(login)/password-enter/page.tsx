@@ -96,7 +96,7 @@ function EnterPasswordContent() {
             },
           }
         );
-        router.replace('/');
+        // router.replace('/');
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);

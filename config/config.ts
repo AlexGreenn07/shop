@@ -7,4 +7,5 @@ export const CONFIG = {
   FALLBACK_PRICE_RANGE: { min: 0, max: 3000 },
   MAX_AUTH_ATTEMPTS: 3,
   TIMEOUT_SENDING_CODE_PERIOD: 180,
+  TEMPORARY_EMAIL_DOMAIN: '@delivery-shop.ru',
 };

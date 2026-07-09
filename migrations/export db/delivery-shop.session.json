@@ -1,0 +1,59 @@
+[{
+  "_id": {
+    "$oid": "6a4939986458d8714e49bdfc"
+  },
+  "token": "c8831164c39b6f7976944ce4cd167ae5",
+  "userId": "6a3adb58ccaadb7a655d7627",
+  "expiresAt": {
+    "$date": "2026-08-03T16:49:28.350Z"
+  },
+  "expiresIn": 2592000,
+  "createdAt": {
+    "$date": "2026-07-04T16:49:28.351Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-04T16:49:28.351Z"
+  },
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
+},
+{
+  "_id": {
+    "$oid": "6a4e1f0c79b13d4d82e200e3"
+  },
+  "expiresAt": {
+    "$date": "2026-08-07T09:57:32.481Z"
+  },
+  "token": "M3Q5BqNCiZWZHvgVhpI7qukuIAJhLD2q",
+  "createdAt": {
+    "$date": "2026-07-08T09:57:32.482Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-08T09:57:32.482Z"
+  },
+  "ipAddress": "0000:0000:0000:0000:0000:0000:0000:0000",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+  "userId": {
+    "$oid": "6a429322ccaadb7a655d7630"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a4e1feb79b13d4d82e200e6"
+  },
+  "expiresAt": {
+    "$date": "2026-08-07T10:01:15.391Z"
+  },
+  "token": "WuB1M5GzEW9N2gINiIpyPiLROs3AhD9L",
+  "createdAt": {
+    "$date": "2026-07-08T10:01:15.392Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-08T10:01:15.392Z"
+  },
+  "ipAddress": "0000:0000:0000:0000:0000:0000:0000:0000",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+  "userId": {
+    "$oid": "6a429322ccaadb7a655d7630"
+  }
+}]

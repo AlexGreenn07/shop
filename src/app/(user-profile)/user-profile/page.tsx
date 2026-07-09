@@ -9,6 +9,9 @@ import { useEffect, useState } from 'react';
 import { Loader } from '@/components/Loader';
 import SecuritySection from '../_components/SecuritySection';
 import ProfileAvatar from '../_components/ProfileAvatar';
+import LocationSection from '../_components/LocationSection';
+import ProfileEmail from '../_components/ProfileEmail';
+import ProfilePhoneSettings from '../_components/ProfilePhone/ProfilePhoneSettings';
 
 function UserProfile() {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -61,32 +64,33 @@ function UserProfile() {
   }
 
   return (
-    <div className="bg-[#fbf8ec] px-4 md:px-6 xl:px-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="animate-slide-in opacity translate-y-8">
-          <div className="overflow-hidden rounded-xl bg-white shadow-xl duration-700 ease-out">
-            <ProfileHeader name={user.name} surname={user.surname} />
+    <div className="mx-auto max-w-4xl bg-[#fbf8ec] px-4 md:px-6 xl:px-8">
+      <div className="animate-slide-in opacity translate-y-8 overflow-hidden rounded-xl bg-white shadow-xl duration-700 ease-out">
+        <ProfileHeader name={user.name} surname={user.surname} />
 
-            <div className="p-6 md:p-8">
-              <div className="mb-6 flex items-center justify-center">
-                <div className="bg-primary flex items-center rounded-full px-3 py-1 text-sm text-white">
-                  {!isPhoneRegistration ? (
-                    <>
-                      <Phone className="mr-1 h-4 w-4" />
-                      <span>Зарегистрирован по телефону</span>
-                    </>
-                  ) : (
-                    <>
-                      <MailWarning className="mr-1 h-4 w-4" />
-                      <span>Зарегистрирован по email</span>
-                    </>
-                  )}
-                </div>
-              </div>
-              <ProfileAvatar gender={user.gender || 'male'} />
-              <SecuritySection />
+        <div className="p-6 md:p-8">
+          <div className="mb-6 flex items-center justify-center">
+            <div className="bg-primary flex items-center rounded-full px-3 py-1 text-sm text-white">
+              {isPhoneRegistration ? (
+                <>
+                  <Phone className="mr-1 h-4 w-4" />
+                  <span>Зарегистрирован по телефону</span>
+                </>
+              ) : (
+                <>
+                  <MailWarning className="mr-1 h-4 w-4" />
+                  <span>Зарегистрирован по email</span>
+                </>
+              )}
             </div>
           </div>
+          <ProfileAvatar gender={user.gender || 'male'} />
+          <LocationSection />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <ProfileEmail />
+            <ProfilePhoneSettings />
+          </div>
+          <SecuritySection />
         </div>
       </div>
     </div>

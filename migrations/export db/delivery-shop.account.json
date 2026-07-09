@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "6a319bf264250fe52c459ea8"
+  },
+  "accountId": "6a319bf264250fe52c459ea7",
+  "providerId": "credential",
+  "userId": {
+    "$oid": "6a319bf264250fe52c459ea7"
+  },
+  "password": "adf5439e3deeda2cb749f1542f6d7726:87b45936adbc91f38ea7cd016fda1e654cb84200c86e54746b05227638d17e7d5c79962d87b2abc8e8a4d816a6a117abe4fd02984a299fdec1400c25004100ad",
+  "createdAt": {
+    "$date": "2026-06-16T18:54:42.480Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-16T18:54:42.480Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a429322ccaadb7a655d7631"
+  },
+  "accountId": "6a429322ccaadb7a655d7630",
+  "providerId": "credential",
+  "userId": {
+    "$oid": "6a429322ccaadb7a655d7630"
+  },
+  "password": "90e2db6086bef7475a2d7408dd4d8916:407f316701d29f38bb8bcebc1b048c5a872a2b42039515f27c31f21e480078daed629882b293a9de8f48f72639914a58fe13d2cb5b3b09efb9a245157e97f72e",
+  "createdAt": {
+    "$date": "2026-06-29T15:45:38.942Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-29T15:45:38.942Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a441ed16458d8714e49bdfa"
+  },
+  "accountId": "6a413c12ccaadb7a655d762a",
+  "providerId": "credential",
+  "userId": {
+    "$oid": "6a413c12ccaadb7a655d762a"
+  },
+  "password": "be50ef493034f9013974e5d0e9608e85:9ee5b2357e3e24d60832f44ac5d560f6c8566dd3339b16cc391cd516ad74db66ac85eae17c742187099938254476d57bc4ce6f3673e60fdd9d7247b0c289512e",
+  "createdAt": {
+    "$date": "2026-06-30T19:53:53.496Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-30T19:56:40.625Z"
+  }
+}]

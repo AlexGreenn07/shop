@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "6a4d302079b13d4d82e200df"
+  },
+  "length": 4196,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2026-07-07T16:58:08.447Z"
+  },
+  "filename": "333-800x800.jpg",
+  "metadata": {
+    "userId": {
+      "$oid": "6a413c12ccaadb7a655d762a"
+    },
+    "originalName": "333-800x800.jpg",
+    "uploadAt": {
+      "$date": "2026-07-07T16:58:08.430Z"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6a4e1fab79b13d4d82e200e4"
+  },
+  "length": 4398,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2026-07-08T10:00:11.167Z"
+  },
+  "filename": "food.jpg",
+  "metadata": {
+    "userId": {
+      "$oid": "6a429322ccaadb7a655d7630"
+    },
+    "originalName": "food.jpg",
+    "uploadAt": {
+      "$date": "2026-07-08T10:00:11.156Z"
+    }
+  }
+}]

@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "6a413c12ccaadb7a655d762a"
+  },
+  "name": "Иван",
+  "email": "916990@mail.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2026-06-28T15:21:54.232Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-07T17:43:19.257Z"
+  },
+  "phoneNumber": "72222222222",
+  "phoneNumberVerified": true,
+  "surname": "DDD",
+  "birthdayDate": {
+    "$date": "1999-11-11T00:00:00.000Z"
+  },
+  "region": "Архангельская область",
+  "location": "Коряжма",
+  "gender": "male",
+  "card": "",
+  "hasCard": false,
+  "password": "$2b$10$Fibt/pztVpUfDskYE.J.ReAskWn/GmObYQ//ppyxvf2AFEX9KelZ2"
+},
+{
+  "_id": {
+    "$oid": "6a429322ccaadb7a655d7630"
+  },
+  "name": "Клауз",
+  "email": "t9169905831@gmail.com",
+  "emailVerified": true,
+  "createdAt": {
+    "$date": "2026-06-29T15:45:38.934Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-29T15:45:52.440Z"
+  },
+  "phoneNumber": "73333333333",
+  "surname": "FFF",
+  "birthdayDate": {
+    "$date": "1999-11-11T00:00:00.000Z"
+  },
+  "region": "Вологодская область",
+  "location": "Коряжма",
+  "gender": "male",
+  "card": "",
+  "hasCard": false
+}]
