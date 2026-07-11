@@ -92,11 +92,18 @@ function EnterPasswordContent() {
               router.replace('/');
             },
             onError: (ctx) => {
-              setError(ctx.error?.message || 'Ошибка при входе');
+              if (
+                ctx.error?.message.includes(
+                  'Invalid email or password'
+                )
+              ) {
+                setError('Ошибка в пароле');
+              } else {
+                setError(ctx.error?.message || 'Ошибка при входе');
+              }
             },
           }
         );
-        // router.replace('/');
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);

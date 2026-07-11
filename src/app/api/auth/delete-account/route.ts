@@ -1,4 +1,5 @@
 import { getDB } from '@/utils/api-routes';
+import { deleteUserAvatarFromGridFS } from '@/utils/deleteUserAvatar';
 import { ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    await deleteUserAvatarFromGridFS(userId);
 
     return NextResponse.json(
       { message: 'Аккаунт успешно удален' },

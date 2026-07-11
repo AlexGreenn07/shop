@@ -12,6 +12,8 @@ import ProfileAvatar from '../_components/ProfileAvatar';
 import LocationSection from '../_components/LocationSection';
 import ProfileEmail from '../_components/ProfileEmail';
 import ProfilePhoneSettings from '../_components/ProfilePhone/ProfilePhoneSettings';
+import ProfilePassword from '../_components/ProfilePassword';
+import ProfileCard from '../_components/ProfileCard';
 
 function UserProfile() {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -89,6 +91,10 @@ function UserProfile() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <ProfileEmail />
             <ProfilePhoneSettings />
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <ProfilePassword />
+            <ProfileCard />
           </div>
           <SecuritySection />
         </div>

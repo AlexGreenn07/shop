@@ -10,13 +10,14 @@ import {
   Tailwind,
 } from '@react-email/components';
 
-interface ResetPasswordProps {
+interface DeleteVerifyProps {
   username: string;
-  resetUrl: string;
+  verifyUrl: string;
 }
 
-const PasswordResetEmail = (props: ResetPasswordProps) => {
-  const { username, resetUrl } = props;
+const DeleteVerify = (props: DeleteVerifyProps) => {
+  const { username, verifyUrl } = props;
+
   return (
     <Html lang="ru" dir="ltr">
       <Tailwind>
@@ -25,21 +26,36 @@ const PasswordResetEmail = (props: ResetPasswordProps) => {
           <Container className="mx-auto max-w-145 rounded-md bg-white p-6">
             <Section>
               <Text className="mt-0 mb-4 text-xl font-bold text-gray-900">
-                Сброс пароля
+                Подтверждение удаления аккаунта
               </Text>
 
               <Text className="mt-0 mb-4 text-base leading-5 text-gray-700">
-                Здравствуйте, {username}! Мы получили запрос на сброс
-                пароля для вашего аккаунта. Для создания нового пароля
-                нажмите на кнопку ниже.
+                Здравствуйте, {username}! Мы получили запрос на
+                удаление Вашего аккаунта в &quot;Северяночке&quot;.
+              </Text>
+
+              <Section className="mb-6 rounded-md border border-red-200 bg-red-50 p-4">
+                <Text className="mt-0 mb-2 text-sm font-semibold text-red-700">
+                  Внимание: это действие необратимо!
+                </Text>
+                <Text className="mt-0 mb-0 text-sm text-red-700">
+                  После удаления аккаунта все Ваши данные, включая
+                  историю заказов, бонусные баллы и персональные
+                  настройки, будут безвозвратно удалены.
+                </Text>
+              </Section>
+
+              <Text className="mt-0 mb-4 text-base leading-5 text-gray-700">
+                Если Вы хотите продолжить удаление аккаунта, нажмите
+                на кнопку ниже:
               </Text>
 
               <Section className="mb-6 text-center">
                 <Button
-                  href={resetUrl}
-                  className="hover: rounded bg-[#70C05B] px-6 py-2 text-base font-medium text-white no-underline"
+                  href={verifyUrl}
+                  className="rounded bg-red-600 px-6 py-3 text-base font-medium text-white no-underline hover:bg-red-700"
                 >
-                  Сбросить пароль
+                  Подтвердить удаление аккаунта
                 </Button>
               </Section>
 
@@ -47,14 +63,17 @@ const PasswordResetEmail = (props: ResetPasswordProps) => {
                 Если кнопка не работает, скопируйте и вставьте эту
                 ссылку в адресную строку браузера:
                 <br />
-                <span className="break-all">{resetUrl}</span>
+                <span className="break-all text-blue-600">
+                  {verifyUrl}
+                </span>
               </Text>
 
               <Text className="mt-0 mb-6 text-sm leading-5 text-gray-600">
-                Ссылка для сброса пароля будет активна в течение 24
-                часов. Если Вы не запрашивали сброс пароля,
+                Ссылка для подтверждения будет активна в течение 24
+                часов. Если Вы не запрашивали удаление аккаунта,
                 пожалуйста, проигнорируйте это письмо или свяжитесь со
-                службой поддержки.
+                службой поддержки для обеспечения безопасности Вашего
+                аккаунта.
               </Text>
 
               <Hr className="my-4 border-gray-200" />
@@ -87,4 +106,4 @@ const PasswordResetEmail = (props: ResetPasswordProps) => {
   );
 };
 
-export default PasswordResetEmail;
+export default DeleteVerify;

@@ -4,11 +4,9 @@ import { useAuthStore } from '@/store/authStore';
 import { buttonStyles } from '@/app/(auth)/styles';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { LoadingContent } from '@/app/(auth)/(reg)/_components/LoadingContent';
 import DeleteAccountModal from './DeleteAccountModal';
 
 const SecuritySection: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { user, logout } = useAuthStore();
@@ -30,35 +28,10 @@ const SecuritySection: React.FC = () => {
 
   const handleDeleteAccount = async () => {
     if (!user) return;
-
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const response = await fetch('/api/auth/delete-account', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Не удалось удалить аккаунт');
-      }
-
-      logout(); // Это очистит Zustand store
-      router.replace('/goodbye'); // Редирект на страницу прощания
-    } catch (error) {
-      console.error('Ошибка при удалении аккаунта:', error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : 'Не удалось удалить аккаунт. Попробуйте позже.'
-      );
-    } finally {
-      setIsLoading(false);
-      setShowDeleteConfirm(false);
+    if (user.phoneNumberVerified) {
+      router.push('/verify-delete-phone');
+    } else {
+      router.push('/verify-delete-email');
     }
   };
 
@@ -72,10 +45,6 @@ const SecuritySection: React.FC = () => {
     setShowDeleteConfirm(false);
   };
 
-  if (isLoading) {
-    return <LoadingContent title="Аккаунт удаляется " />;
-  }
-
   return (
     <>
       <div className="border-t pt-8">
@@ -87,7 +56,7 @@ const SecuritySection: React.FC = () => {
             {error}
           </div>
         )}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <button
             onClick={logoutFromProfile}
             className={`${buttonStyles.active} hover:shadow-button-cancel active:shadow-button-cancel-active flex h-12 flex-1 cursor-pointer items-center justify-center rounded bg-[#f3f2f1] px-4 py-2 font-medium text-[#606060] duration-300`}
