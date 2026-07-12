@@ -8,6 +8,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { getAvatarByGender } from '@/utils/getAvatarByGender';
 import { checkAvatarExist } from '@/utils/avatarUtils';
+import MiniLoader from '../MiniLoader';
 
 const Profile = () => {
   const { isAuth, user, logout, checkAuth, isLoading } =
@@ -19,6 +20,20 @@ const Profile = () => {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const getDisplayName = () => {
+    if (!user?.name) return <MiniLoader />;
+    if (user.role === 'manager') {
+      return 'Менеджер';
+    } else if (user.role === 'admin') {
+      return 'Администратор';
+    }
+    return user.name;
+  };
+
+  const isManagerOrAdmin = () => {
+    return user?.role === 'manager' || user?.role === 'admin';
+  };
 
   useEffect(() => {
     setLastUpdate(Date.now());
@@ -132,7 +147,7 @@ const Profile = () => {
           className="min-h-10 min-w-10 rounded-full object-cover md:block xl:block"
         />
         <p className="hidden cursor-pointer p-2.5 xl:block">
-          {isLoading ? 'Загрузка...' : user?.name}
+          {getDisplayName()}
         </p>
         <div className="hidden xl:block">
           <Image
@@ -170,6 +185,15 @@ const Profile = () => {
         >
           Главная
         </Link>
+        {isManagerOrAdmin() && (
+          <Link
+            href="/administrator"
+            className="block px-4 py-3 text-[#414141] duration-300 hover:text-[#ff6633]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Панель управления
+          </Link>
+        )}
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}

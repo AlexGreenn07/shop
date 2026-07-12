@@ -1,14 +1,20 @@
 import Image from 'next/image';
 import iconHeart from '../../../public/icons-header/icon-heart.svg';
-import iconBox from '../../../public/icons-header/icon-box.svg';
 import iconCart from '../../../public/icons-header/icon-cart.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import IconMenuMob from '../svg/IconMenuMob';
+import { useAuthStore } from '@/store/authStore';
+import IconBox from '../svg/IconBox';
 
 function TopMenu() {
   const pathname = usePathname();
   const isCatalogPage = pathname === '/catalog';
+  const { user } = useAuthStore();
+
+  const isManagerOrAdmin =
+    user?.role === 'manager' || user?.role === 'admin';
+
   return (
     <ul className="flex flex-row items-end gap-x-6 md:gap-x-5">
       <Link href="/catalog">
@@ -21,36 +27,39 @@ function TopMenu() {
           </span>
         </li>
       </Link>
-      <li className="flex w-11 cursor-pointer flex-col items-center gap-2.5">
-        <Image
-          src={iconHeart}
-          alt="Избранное"
-          width={24}
-          height={24}
-          className="h-6 w-6 object-contain"
-        />
-        <span>Избранное</span>
+      {!isManagerOrAdmin && (
+        <li className="flex w-11 cursor-pointer flex-col items-center gap-1">
+          <Image
+            src={iconHeart}
+            alt="Избранное"
+            width={24}
+            height={24}
+            className="h-6 w-6 object-contain"
+          />
+          <span>Избранное</span>
+        </li>
+      )}
+
+      <li className="flex w-11 cursor-pointer flex-col items-center gap-1">
+        <IconBox />
+        <span
+          className={`${isManagerOrAdmin ? 'text-[#ff6633]' : 'text-black'} `}
+        >
+          Заказы
+        </span>
       </li>
-      <li className="flex w-11 cursor-pointer flex-col items-center gap-2.5">
-        <Image
-          src={iconBox}
-          alt="Заказы"
-          width={24}
-          height={24}
-          className="h-6 w-6 object-contain"
-        />
-        <span>Заказы</span>
-      </li>
-      <li className="flex w-11 cursor-pointer flex-col items-center gap-2.5">
-        <Image
-          src={iconCart}
-          alt="Корзина"
-          width={24}
-          height={24}
-          className="h-6 w-6 object-contain"
-        />
-        <span>Корзина</span>
-      </li>
+      {!isManagerOrAdmin && (
+        <li className="flex w-11 cursor-pointer flex-col items-center gap-1">
+          <Image
+            src={iconCart}
+            alt="Корзина"
+            width={24}
+            height={24}
+            className="h-6 w-6 object-contain"
+          />
+          <span>Корзина</span>
+        </li>
+      )}
     </ul>
   );
 }

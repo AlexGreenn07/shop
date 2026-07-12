@@ -6,6 +6,7 @@ import ErrorComponent from '@/components/ErrorComponent';
 import { Loader } from '@/components/Loader';
 import CatalogAdminControls from '../CatalogAdminControls';
 import CatalogGrid from '../CatalogGrid';
+import { useAuthStore } from '@/store/authStore';
 
 const CatalogPage = () => {
   const [categories, setCategories] = useState<CatalogProps[]>([]);
@@ -20,7 +21,9 @@ const CatalogPage = () => {
   >(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const isAdmin = true;
+  const { user } = useAuthStore();
+
+  const isAdmin = user?.role === 'admin';
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
@@ -75,7 +78,7 @@ const CatalogPage = () => {
           error instanceof Error
             ? error
             : new Error('Неизвестная ошибка'),
-        userMessage: 'Не удалось сохраненить порядок категорий',
+        userMessage: 'Не удалось сохранить порядок категорий',
       });
     } finally {
       setIsLoading(false);
@@ -169,7 +172,7 @@ const CatalogPage = () => {
 
   return (
     <section className="mx-auto px-[max(12px,calc((100%-1208px)/2))]">
-      {isAdmin && (
+      {!isAdmin && (
         <CatalogAdminControls
           isEditing={isEditing}
           onToggleEditingAction={handleToggleEditing}

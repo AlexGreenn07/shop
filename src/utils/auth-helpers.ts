@@ -55,6 +55,7 @@ export async function getUserById(userId: string) {
     region: user.region,
     card: user.card,
     hasCard: user.hasCard,
+    role: user.role,
   };
 }
 

@@ -28,7 +28,6 @@ export async function GET(request: Request) {
     const productIds = user.purchases.map(
       (p: { id: number }) => p.id
     );
-    console.log(productIds);
 
     if (userPurchasesLimit) {
       const limit = parseInt(userPurchasesLimit);
