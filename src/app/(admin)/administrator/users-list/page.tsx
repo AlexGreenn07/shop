@@ -8,8 +8,22 @@ import ErrorComponent from '@/components/ErrorComponent';
 import { useAuthStore } from '@/store/authStore';
 import { CONFIG } from '../../../../../config/config';
 import UsersTable from './_components/UsersTable';
+import Filters from './_components/Filters';
+import { FiltersState } from '@/types/FiltersState';
 
-const PAGE_SIZE_OPTIONS = [1, 5, 10, 20, 50, 100];
+const PAGE_SIZE_OPTIONS = [1, 2, 5, 10, 20, 50, 100];
+const initialFilters: FiltersState = {
+  id: '',
+  name: '',
+  surname: '',
+  email: '',
+  phoneNumber: '',
+  role: '',
+  minAge: '',
+  maxAge: '',
+  startDate: '',
+  endDate: '',
+};
 
 function UsersList() {
   const [users, setUsers] = useState<UserData[]>([]);
@@ -28,6 +42,11 @@ function UsersList() {
     error: Error;
     userMessage: string;
   } | null>(null);
+  const [filters, setFilters] =
+    useState<FiltersState>(initialFilters);
+  const [appliedFilters, setAppliedFilters] =
+    useState<FiltersState>(initialFilters);
+
   const { user: currentUser } = useAuthStore();
   const isManager = currentUser?.role === 'manager';
 
@@ -48,12 +67,28 @@ function UsersList() {
     setCurrentPage(1);
   };
 
+  const handleClearFilters = () => {
+    setFilters(initialFilters);
+    setAppliedFilters(initialFilters);
+    setCurrentPage(1);
+  };
+
+  const handleFilterChange = (newFilters: FiltersState) => {
+    setFilters(newFilters);
+  };
+
+  const handleApplyFilters = () => {
+    setAppliedFilters(filters);
+    setCurrentPage(1);
+  };
+
   const loadUsers = useCallback(
     async (
       page: number,
       sortField: string,
       sortDir: 'asc' | 'desc',
-      limit: number
+      limit: number,
+      filters: FiltersState
     ) => {
       try {
         setLoading(true);
@@ -65,6 +100,23 @@ function UsersList() {
           sortBy: sortField,
           sortDirection: sortDir,
         });
+
+        if (filters.id) queryParams.append('id', filters.id);
+        if (filters.name) queryParams.append('name', filters.name);
+        if (filters.surname)
+          queryParams.append('surname', filters.surname);
+        if (filters.email) queryParams.append('email', filters.email);
+        if (filters.phoneNumber)
+          queryParams.append('phoneNumber', filters.phoneNumber);
+        if (filters.role) queryParams.append('role', filters.role);
+        if (filters.minAge)
+          queryParams.append('minAge', filters.minAge);
+        if (filters.maxAge)
+          queryParams.append('maxAge', filters.maxAge);
+        if (filters.startDate)
+          queryParams.append('startDate', filters.startDate);
+        if (filters.endDate)
+          queryParams.append('endDate', filters.endDate);
 
         if (isManager && currentUser) {
           queryParams.append(
@@ -106,8 +158,21 @@ function UsersList() {
   );
 
   useEffect(() => {
-    loadUsers(currentPage, sortBy, sortDirection, pageSize);
-  }, [loadUsers, currentPage, pageSize, sortBy, sortDirection]);
+    loadUsers(
+      currentPage,
+      sortBy,
+      sortDirection,
+      pageSize,
+      appliedFilters
+    );
+  }, [
+    loadUsers,
+    currentPage,
+    pageSize,
+    sortBy,
+    sortDirection,
+    appliedFilters,
+  ]);
 
   if (loading) return <Loader />;
   if (error) {
@@ -126,6 +191,12 @@ function UsersList() {
         pageSizeOptions={PAGE_SIZE_OPTIONS}
         onPageSizeChange={handleOnPageSizeChange}
         totalUsers={totalUsers}
+      />
+      <Filters
+        onClearFilters={handleClearFilters}
+        onFilterChange={handleFilterChange}
+        onApplyFilters={handleApplyFilters}
+        filters={filters}
       />
       <UsersTable
         users={users}
