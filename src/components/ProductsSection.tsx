@@ -22,7 +22,7 @@ const ProductsSection = ({
         className={`align-center flex flex-col justify-center px-[max(12px,calc((100%-1208px)/2))]`}
       >
         <div className="mb-4 flex flex-row justify-between md:mb-8 xl:mb-10">
-          <h2 className="text-left text-2xl font-bold text-[#414141] xl:text-4xl">
+          <h2 className="text-main-text text-left text-2xl font-bold xl:text-4xl">
             {title}
           </h2>
           {viewAllButton && (

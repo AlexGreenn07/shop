@@ -63,7 +63,7 @@ const CategoryPage = async ({
   }
   return (
     <div className="mx-auto flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
-      <h1 className="mb-8 ml-3 max-w-84 text-left text-4xl leading-[150%] font-bold text-[#414141] md:mb-10 md:max-w-max md:text-5xl xl:mb-15 xl:ml-0">
+      <h1 className="text-main-text mb-8 ml-3 max-w-84 text-left text-4xl leading-[150%] font-bold md:mb-10 md:max-w-max md:text-5xl xl:mb-15 xl:ml-0">
         {TRANSLATIONS[category] || category}
       </h1>
       <DropFilter
@@ -75,7 +75,7 @@ const CategoryPage = async ({
       </div>
       <div className="flex flex-row justify-between gap-x-10">
         <div className="hidden w-68 flex-col gap-y-10 xl:flex">
-          <div className="flex h-11 items-center rounded bg-[#f3f2f1] p-2.5 text-base font-bold text-[#414141]">
+          <div className="text-main-text flex h-11 items-center rounded bg-[#f3f2f1] p-2.5 text-base font-bold">
             Фильтр
           </div>
           <PriceFilter

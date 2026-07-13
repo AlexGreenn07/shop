@@ -114,7 +114,7 @@ function LoginWithOTP({ phoneNumber }: { phoneNumber: string }) {
   return (
     <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
-        <h1 className="text-center text-2xl font-bold text-[#414141]">
+        <h1 className="text-main-text text-center text-2xl font-bold">
           Вход
         </h1>
         <div>
@@ -160,7 +160,7 @@ function LoginWithOTP({ phoneNumber }: { phoneNumber: string }) {
         />
         <Link
           href="/login"
-          className="mx-auto flex h-8 w-30 cursor-pointer items-center justify-center gap-x-2 text-xs text-[#414141] duration-300 hover:text-black"
+          className="text-main-text mx-auto flex h-8 w-30 cursor-pointer items-center justify-center gap-x-2 text-xs duration-300 hover:text-black"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

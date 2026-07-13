@@ -15,7 +15,7 @@ const SearchResults = ({
   if (isLoading) return <MiniLoader />;
   if (groupedProducts.length > 0)
     return (
-      <div className="flex flex-col gap-2 p-2 text-[#414141]">
+      <div className="text-main-text flex flex-col gap-2 p-2">
         {groupedProducts.map((group) => (
           <div key={group.category} className="flex flex-col gap-2">
             <Link

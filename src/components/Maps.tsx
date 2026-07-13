@@ -19,7 +19,7 @@ function Maps() {
       >
         <section>
           <div className="flex flex-col justify-center xl:max-w-302">
-            <h2 className="mb-4 text-left text-2xl font-bold text-[#414141] md:mb-8 xl:mb-10 xl:text-4xl">
+            <h2 className="text-main-text mb-4 text-left text-2xl font-bold md:mb-8 xl:mb-10 xl:text-4xl">
               Наши магазины
             </h2>
             <div className="mb-5 flex flex-wrap gap-x-2 gap-y-3">
@@ -29,7 +29,7 @@ function Maps() {
                   <button
                     key={key}
                     onClick={() => setCurrentLocation(key)}
-                    className={`cursor-pointer items-center justify-center rounded border-none p-2 text-xs transition-colors duration-300 active:shadow-(--shadow-button-active) ${isActive ? 'bg-(--color-primary) text-white hover:shadow-(--shadow-button-default)' : 'bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)'}`}
+                    className={`cursor-pointer items-center justify-center rounded border-none p-2 text-xs transition-colors duration-300 active:shadow-(--shadow-button-active) ${isActive ? 'bg-primary text-white hover:shadow-(--shadow-button-default)' : 'bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)'}`}
                   >
                     {locations[key].name}
                   </button>

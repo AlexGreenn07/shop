@@ -31,7 +31,7 @@ export const ErrorContent = ({
       <div className="flex flex-col items-center space-y-4 text-center">
         <div className="rounded-full bg-red-100 p-3">{icon}</div>
         <div className="space-y-2">
-          <h3 className="text-2xl font-bold text-[#414141]">
+          <h3 className="text-main-text text-2xl font-bold">
             {title}
           </h3>
           {error && <p className="max-w-md text-gray-600">{error}</p>}

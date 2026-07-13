@@ -161,7 +161,7 @@ export const PhonePasswordResetVerify = ({
         <button
           type="button"
           onClick={onBackAction}
-          className="mx-auto cursor-pointer text-sm text-(--color-primary) hover:underline"
+          className="text-primary mx-auto cursor-pointer text-sm hover:underline"
         >
           Изменить номер телефона
         </button>

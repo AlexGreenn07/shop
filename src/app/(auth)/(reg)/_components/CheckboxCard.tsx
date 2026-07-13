@@ -28,7 +28,7 @@ const CheckboxCard = ({
           className="absolute h-0 w-0 opacity-0"
         />
         <span
-          className={`relative flex h-5 w-5 items-center justify-center rounded border duration-300 ${checked ? 'border-(--color-primary) bg-(--color-primary)' : 'border-[#bfbfbf] bg-white'}`}
+          className={`relative flex h-5 w-5 items-center justify-center rounded border duration-300 ${checked ? 'border-primary bg-primary' : 'border-[#bfbfbf] bg-white'}`}
         >
           {checked && (
             <Image

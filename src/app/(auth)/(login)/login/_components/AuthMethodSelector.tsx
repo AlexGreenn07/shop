@@ -64,7 +64,7 @@ export const AuthMethodSelector: React.FC<
 
           <button
             onClick={onBackAction}
-            className="mx-auto flex h-8 w-30 cursor-pointer items-center justify-center gap-x-2 text-xs text-[#414141] duration-300 hover:text-black"
+            className="text-main-text mx-auto flex h-8 w-30 cursor-pointer items-center justify-center gap-x-2 text-xs duration-300 hover:text-black"
           >
             <ArrowLeft className="h-4 w-4" />
             Вернуться

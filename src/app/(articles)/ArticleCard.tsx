@@ -24,15 +24,15 @@ const ArticleCard = ({
         <time className="text-[10px] text-[#8f8f8f]">
           {new Date(createdAt).toLocaleDateString('ru-RU')}
         </time>
-        <h3 className="line-clamp-2 min-h-14 text-base font-bold text-[#414141] xl:text-lg">
+        <h3 className="text-main-text line-clamp-2 min-h-14 text-base font-bold xl:text-lg">
           {title}
         </h3>
-        <p className="mb-3 line-clamp-3 text-xs text-[#414141] xl:text-base">
+        <p className="text-main-text mb-3 line-clamp-3 text-xs xl:text-base">
           {text}
         </p>
         <Link
           href={`/articles`}
-          className="mt-auto inline-flex h-10 w-37.5 cursor-pointer items-center justify-center rounded bg-[#E5FFDE] px-6 py-2 text-base text-[#70C05B] transition-colors duration-300 hover:bg-(--color-primary) hover:text-white hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active)"
+          className="hover:bg-primary mt-auto inline-flex h-10 w-37.5 cursor-pointer items-center justify-center rounded bg-[#E5FFDE] px-6 py-2 text-base text-[#70C05B] transition-colors duration-300 hover:text-white hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active)"
         >
           Подробнее
         </Link>

@@ -72,7 +72,7 @@ const ProductCard = ({
         <div className="flex h-47.25 flex-col p-2">
           <div className="flex h-11.25 flex-row items-start justify-between">
             <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-sm font-bold text-[#414141] md:text-lg">
+              <div className="text-main-text flex flex-row gap-x-1 text-sm font-bold md:text-lg">
                 <span>{formatPrice(priceByCard)}</span>
                 <span>₽</span>
               </div>
@@ -94,13 +94,13 @@ const ProductCard = ({
               </div>
             )}
           </div>
-          <div className="line-clamp-3 h-13.5 text-xs leading-normal text-[#414141] md:line-clamp-2 md:text-base">
+          <div className="text-main-text line-clamp-3 h-13.5 text-xs leading-normal md:line-clamp-2 md:text-base">
             {description}
           </div>
           {ratingValue > 0 && <StarRating rating={ratingValue} />}
         </div>
       </Link>
-      <button className="absolute right-2 bottom-2 left-2 h-10 cursor-pointer items-center justify-center rounded border border-(--color-primary) text-(--color-primary) transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active)">
+      <button className="border-primary text-primary absolute right-2 bottom-2 left-2 h-10 cursor-pointer items-center justify-center rounded border transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active)">
         В корзину
       </button>
     </div>

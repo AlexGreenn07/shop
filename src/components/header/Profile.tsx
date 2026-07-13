@@ -173,14 +173,14 @@ const Profile = () => {
       >
         <Link
           href="/user-profile"
-          className="block px-4 py-3 text-[#414141] duration-300 hover:text-[#ff6633]"
+          className="text-main-text block px-4 py-3 duration-300 hover:text-[#ff6633]"
           onClick={() => setIsMenuOpen(false)}
         >
           Профиль
         </Link>
         <Link
           href="/"
-          className="block px-4 py-3 text-[#414141] duration-300 hover:text-[#ff6633]"
+          className="text-main-text block px-4 py-3 duration-300 hover:text-[#ff6633]"
           onClick={() => setIsMenuOpen(false)}
         >
           Главная
@@ -188,7 +188,7 @@ const Profile = () => {
         {isManagerOrAdmin() && (
           <Link
             href="/administrator"
-            className="block px-4 py-3 text-[#414141] duration-300 hover:text-[#ff6633]"
+            className="text-main-text block px-4 py-3 duration-300 hover:text-[#ff6633]"
             onClick={() => setIsMenuOpen(false)}
           >
             Панель управления
@@ -197,7 +197,7 @@ const Profile = () => {
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className="w-full cursor-pointer border-t border-gray-200 px-4 py-3 text-left text-[#414141] duration-300 hover:text-[#ff6633] disabled:cursor-not-allowed disabled:opacity-50"
+          className="text-main-text w-full cursor-pointer border-t border-gray-200 px-4 py-3 text-left duration-300 hover:text-[#ff6633] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isLoggingOut ? 'Выход...' : 'Выйти'}
         </button>

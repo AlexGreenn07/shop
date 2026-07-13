@@ -41,7 +41,7 @@ const FilterButtons = ({ basePath }: { basePath: string }) => {
           href={buildFilterLink(filter.key)}
           className={`flex h-8 cursor-pointer items-center justify-center rounded p-2 text-xs duration-300 ${
             isFilterActive(filter.key)
-              ? 'bg-(--color-primary) text-white hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active)'
+              ? 'bg-primary text-white hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active)'
               : 'bg-[#f3f2f1] text-[#606060] hover:shadow-(--shadow-button-secondary) active:shadow-(--shadow-button-active)'
           } `}
         >

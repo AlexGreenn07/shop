@@ -162,7 +162,7 @@ function EnterLoginPage() {
 
   return (
     <AuthFormLayout>
-      <h1 className="mb-8 text-center text-2xl font-bold text-[#414141]">
+      <h1 className="text-main-text mb-8 text-center text-2xl font-bold">
         Вход
       </h1>
       <form
@@ -246,7 +246,7 @@ function EnterLoginPage() {
           </Link>
           <button
             onClick={handleForgotPassword}
-            className="flex h-8 w-30 items-center justify-center text-[#414141] duration-300 hover:text-black"
+            className="text-main-text flex h-8 w-30 items-center justify-center duration-300 hover:text-black"
           >
             Забыли пароль?
           </button>

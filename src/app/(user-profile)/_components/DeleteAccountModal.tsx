@@ -28,7 +28,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
           </div>
         )}
 
-        <p className="mb-6 text-[#414141]">
+        <p className="text-main-text mb-6">
           Вы уверены, что хотите удалить свой аккаунт? Это действие
           нельзя отменить.
         </p>

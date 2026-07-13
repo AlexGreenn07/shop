@@ -87,7 +87,7 @@ function InputBlock({
         handleInputFocus={handleInputFocus}
       />
       {isOpen && (
-        <div className="absolute right-0 left-0 z-10 -mt-0.5 max-h-75 overflow-y-auto rounded-b border border-t-0 border-(--color-primary) bg-white wrap-break-word shadow-inherit">
+        <div className="border-primary absolute right-0 left-0 z-10 -mt-0.5 max-h-75 overflow-y-auto rounded-b border border-t-0 bg-white wrap-break-word shadow-inherit">
           {error ? (
             <div className="p-2 text-sm text-red-500">
               {error}

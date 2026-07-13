@@ -9,7 +9,7 @@ function CatalogAdminControls({
     <div className="mb-4 flex justify-end">
       <button
         onClick={onToggleEditingAction}
-        className="h-10 w-2/3 cursor-pointer items-center justify-center rounded border border-(--color-primary) p-2 text-sm text-(--color-primary) transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active) md:text-base"
+        className="border-primary text-primary h-10 w-2/3 cursor-pointer items-center justify-center rounded border p-2 text-sm transition-all duration-300 select-none hover:border-transparent hover:bg-[#ff6633] hover:text-white active:shadow-(--shadow-button-active) md:text-base"
       >
         {isEditing
           ? 'Закончить редактирование'

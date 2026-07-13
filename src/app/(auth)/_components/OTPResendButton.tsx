@@ -12,7 +12,7 @@ function OTPResendButton({
   onResendAction,
 }: OTPResendButtonProps) {
   return !canResend ? (
-    <p className="text-center text-xs text-[#414141]">
+    <p className="text-main-text text-center text-xs">
       Код подтверждения можно будет повторно запросить через{' '}
       <span className="font-bold">{timeLeft}</span> секунд
     </p>

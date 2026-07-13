@@ -64,7 +64,7 @@ const SearchResult = () => {
   }
 
   return (
-    <div className="my-20 px-[max(12px,calc((100%-1208px)/2))] text-[#414141]">
+    <div className="text-main-text my-20 px-[max(12px,calc((100%-1208px)/2))]">
       <h1 className="mb-6 text-left text-2xl font-bold xl:text-4xl">
         Результат поиска
       </h1>

@@ -21,7 +21,7 @@ function TopMenu() {
         <li className="flex w-11 cursor-pointer flex-col items-center gap-2.5 md:hidden">
           <IconMenuMob isCatalogPage={isCatalogPage} />
           <span
-            className={`${isCatalogPage ? 'text-[#ff6633]' : 'text-[#414141]'}`}
+            className={`${isCatalogPage ? 'text-[#ff6633]' : 'text-main-text'}`}
           >
             Каталог
           </span>

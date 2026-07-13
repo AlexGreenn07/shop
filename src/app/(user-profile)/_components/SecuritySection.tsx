@@ -48,7 +48,7 @@ const SecuritySection: React.FC = () => {
   return (
     <>
       <div className="border-t pt-8">
-        <h2 className="mb-6 text-2xl font-bold text-[#414141]">
+        <h2 className="text-main-text mb-6 text-2xl font-bold">
           Безопасность
         </h2>
         {error && (

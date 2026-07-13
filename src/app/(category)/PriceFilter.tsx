@@ -181,7 +181,7 @@ const PriceFilter = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-y-10 text-[#414141]"
+      className="text-main-text flex flex-col gap-y-10"
     >
       <PriceFilterHeader onResetAction={resetPriceFilter} />
       <PriceInputs

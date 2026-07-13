@@ -6,7 +6,7 @@ import bannerActionDesk from '../../public/images/banners/banner-action-desk.jpe
 const SpecialOffers = () => {
   return (
     <section>
-      <div className="mb-4 flex flex-col justify-between text-[#414141] md:mb-8 xl:mb-10">
+      <div className="text-main-text mb-4 flex flex-col justify-between md:mb-8 xl:mb-10">
         <div className="mx-auto flex flex-col gap-4 md:w-full xl:w-full">
           <h2 className="mb-4 text-left text-2xl font-bold md:mb-8 xl:text-4xl">
             Специальные предложения

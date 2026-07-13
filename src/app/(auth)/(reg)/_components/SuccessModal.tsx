@@ -13,13 +13,13 @@ const SuccessModal = () => {
   }, [router]);
   return (
     <AuthFormLayout>
-      <h2 className="mb-4 text-2xl font-bold text-(--color-primary)">
+      <h2 className="text-primary mb-4 text-2xl font-bold">
         Регистрация прошла успешно!
       </h2>
       <p>Сейчас вы будете перенаправлены на страницу входа</p>
       <div className="h-2.5 w-full rounded-full bg-gray-200">
         <div
-          className="h-2.5 animate-[progress_3s_linear] rounded-full bg-(--color-primary)"
+          className="bg-primary h-2.5 animate-[progress_3s_linear] rounded-full"
           style={{ animationFillMode: 'forwards' }}
         ></div>
       </div>

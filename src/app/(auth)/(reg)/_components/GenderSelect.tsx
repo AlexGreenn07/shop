@@ -36,7 +36,7 @@ const GenderSelect = ({
             <label
               key={gender.id}
               htmlFor={inputId}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded duration-300 ${isChecked ? 'bg-(--color-primary) text-white' : ''}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded duration-300 ${isChecked ? 'bg-primary text-white' : ''}`}
             >
               <input
                 id={inputId}

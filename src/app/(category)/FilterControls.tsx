@@ -57,14 +57,14 @@ function FilterControls({ basePath }: FilterControlsProps) {
       <div
         className={`flex h-8 cursor-not-allowed items-center justify-center gap-x-2 rounded p-2 text-xs duration-300 ${
           (activeFilter && activeFilter.length > 0) || hasPriceFilter
-            ? 'bg-(--color-primary) text-white'
+            ? 'bg-primary text-white'
             : 'bg-[#f3f2f1] text-[#606060]'
         }`}
       >
         {filterButtonText}
       </div>
       {hasPriceFilter && (
-        <div className="flex h-8 items-center justify-center gap-x-2 rounded bg-(--color-primary) p-2 text-xs text-white duration-300">
+        <div className="bg-primary flex h-8 items-center justify-center gap-x-2 rounded p-2 text-xs text-white duration-300">
           <Link
             href={buildClearPriceFilterLink()}
             className="flex items-center gap-x-2"
@@ -85,7 +85,7 @@ function FilterControls({ basePath }: FilterControlsProps) {
         className={`flex h-8 cursor-pointer items-center justify-center gap-x-2 rounded p-2 text-xs duration-300 ${
           !activeFilter || activeFilter.length === 0
             ? 'bg-[#f3f2f1] text-[#606060]'
-            : 'bg-(--color-primary) text-white'
+            : 'bg-primary text-white'
         }`}
       >
         <Link

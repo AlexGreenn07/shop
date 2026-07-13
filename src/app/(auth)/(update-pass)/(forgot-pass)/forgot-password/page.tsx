@@ -46,7 +46,7 @@ const ForgotPassword = () => {
     <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col items-center">
-          <KeyRound className="mb-4 h-12 w-12 text-(--color-primary)" />
+          <KeyRound className="text-primary mb-4 h-12 w-12" />
           <h1 className="text-center text-2xl font-bold">
             Сброс пароля
           </h1>

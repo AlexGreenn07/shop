@@ -64,7 +64,7 @@ const ProfilePassword = () => {
 
       {/* Модальное окно */}
       {isModalOpen && (
-        <div className="absolute inset-0 z-100 flex min-h-screen items-center justify-center bg-[#fcd5bacc] px-3 py-10 text-[#414141] backdrop-blur-sm">
+        <div className="text-main-text absolute inset-0 z-100 flex min-h-screen items-center justify-center bg-[#fcd5bacc] px-3 py-10 backdrop-blur-sm">
           <div className="shadow-auth-form) relative flex max-h-[calc(100vh-80px)] w-full flex-col rounded bg-white p-6">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">

@@ -27,7 +27,7 @@ export const UnverifiedEmail = ({
       <div className="flex flex-col items-center justify-center gap-y-4">
         <MailWarning className="h-8 w-8 text-[#ff6633]" />
 
-        <h2 className="text-2xl font-medium tracking-tight text-[#414141]">
+        <h2 className="text-main-text text-2xl font-medium tracking-tight">
           Требуется{' '}
           <span className="font-semibold text-[#ff6633]">
             подтверждение
@@ -36,10 +36,10 @@ export const UnverifiedEmail = ({
 
         <div className="w-full">
           <div className="flex w-full flex-col items-center rounded border border-gray-100 bg-white/95 p-4 shadow-xs">
-            <p className="text-sm font-light text-[#414141]">
+            <p className="text-main-text text-sm font-light">
               Письмо отправлено на:
             </p>
-            <p className="mt-1 text-lg font-medium text-[#414141]">
+            <p className="text-main-text mt-1 text-lg font-medium">
               {email}
             </p>
             <p className="mt-2 text-xs font-light text-gray-400">
@@ -67,10 +67,10 @@ export const UnverifiedEmail = ({
               setLoginAction('');
               setShowUnverifiedEmailAction(false);
             }}
-            className={`${formStyles.loginLink} w-full cursor-pointer rounded text-(--color-primary) hover:text-white [&&]:my-auto [&&]:h-auto`}
+            className={`${formStyles.loginLink} text-primary w-full cursor-pointer rounded hover:text-white [&&]:my-auto [&&]:h-auto`}
           >
             <span className="relative flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium text-white">
-              <Search className="h-5 w-5 text-(--color-primary) transition-colors duration-300" />
+              <Search className="text-primary h-5 w-5 transition-colors duration-300" />
               <span className="translate-y-px">
                 Использовать другой email
               </span>

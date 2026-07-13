@@ -5,10 +5,10 @@ export default function GoodbyePage() {
   return (
     <AuthFormLayout>
       <div className="flex flex-col items-center justify-center bg-white">
-        <h1 className="mb-4 text-2xl font-bold text-[#414141]">
+        <h1 className="text-main-text mb-4 text-2xl font-bold">
           Ваш аккаунт был удален
         </h1>
-        <p className="mb-6 text-[#414141]">
+        <p className="text-main-text mb-6">
           Спасибо, что были с нами. Все ваши данные были успешно
           удалены.
         </p>

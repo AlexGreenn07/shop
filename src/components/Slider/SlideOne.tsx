@@ -13,7 +13,7 @@ function SlideOne() {
             sizes="(max-width: 768px) 50px, (max-width: 1200px) 75px, 100px"
           />
         </div>
-        <h2 className="text-lg font-bold text-[#414141] md:text-2xl xl:text-5xl">
+        <h2 className="text-main-text text-lg font-bold md:text-2xl xl:text-5xl">
           Доставка бесплатно от 1000 ₽
         </h2>
       </div>

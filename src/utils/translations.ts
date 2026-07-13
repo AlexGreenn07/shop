@@ -19,4 +19,6 @@ export const TRANSLATIONS: Record<string, string> = {
   'non-food': 'Непродовольственные товары',
   category: 'Категория',
   'user-profile': 'Личный кабинет',
+  administrator: 'Панель управления',
+  'user-list': 'Список пользователей',
 };

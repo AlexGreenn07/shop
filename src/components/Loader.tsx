@@ -14,8 +14,6 @@ export const Loader = ({
       <div className="absolute h-full w-full animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
       <div className="animate-spin-reverse absolute h-full w-full rounded-full border-4 border-orange-500 border-b-transparent"></div>
     </div>
-    {text && (
-      <p className="text-(--color-primary)">Загрузка {text}...</p>
-    )}
+    {text && <p className="text-primary">Загрузка {text}...</p>}
   </div>
 );

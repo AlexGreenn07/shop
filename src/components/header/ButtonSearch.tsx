@@ -6,7 +6,7 @@ function ButtonSearch() {
     <>
       <Link
         href="/catalog"
-        className="hidden w-10 cursor-pointer gap-4 rounded bg-(--color-primary) p-2 duration-300 hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) md:flex lg:w-35"
+        className="bg-primary hidden w-10 cursor-pointer gap-4 rounded p-2 duration-300 hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) md:flex lg:w-35"
         aria-label="Каталог"
       >
         <div className="relative hidden h-6 w-6 md:block">

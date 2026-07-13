@@ -174,7 +174,7 @@ const ResetPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`mx-auto w-full max-w-65 cursor-pointer gap-4 rounded bg-(--color-primary) p-2 text-white duration-300 hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) ${loading ? 'bg-[#e5ffde]' : 'bg-(--color-primary)'}`}
+          className={`bg-primary mx-auto w-full max-w-65 cursor-pointer gap-4 rounded p-2 text-white duration-300 hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) ${loading ? 'bg-[#e5ffde]' : 'bg-primary'}`}
         >
           {loading ? 'Сохранение...' : 'Сохранить новый пароль'}
         </button>

@@ -44,7 +44,7 @@ function CatalogMenu({
                   <Link
                     key={category.id}
                     href={`/category/${category.slug}`}
-                    className="block px-4 py-2 font-bold text-[#414141] duration-300 hover:text-[#ff6633]"
+                    className="text-main-text block px-4 py-2 font-bold duration-300 hover:text-[#ff6633]"
                     onClick={() => setIsCatalogOpen(false)}
                   >
                     {category.title}

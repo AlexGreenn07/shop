@@ -27,7 +27,7 @@ function InStockToggle({
             } `}
           ></div>
         </div>
-        <span className="ml-2 text-sm text-[#414141]">В наличии</span>
+        <span className="text-main-text ml-2 text-sm">В наличии</span>
       </label>
     </div>
   );
